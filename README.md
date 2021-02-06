@@ -52,6 +52,11 @@ BLINKAH is a behavior-based insurance system that uses Computer Vision to analyz
 
 ## Server Setup Instructions
 
+## OpenALPR Setup Instructions
+We decided to use OpenALPR, an open-source Automatic License Plate Recognition library software to handle the bulk of our computer vision and machine learning processes. It is based in C++ with dependencies available in python3, so we are using OpenCV as well as tesseract to handle the translation of license plates to text.
+Since OpenALPR is based on windows and ubuntu linux, we decided to set it up on an ubuntu OS. We simply install the required prerequisites and the actual OpenALPR from the github, set up a build directory, and compile an environment. Once that is set up, we can compile the library, and install the binaries to the local machine and test. https://github.com/openalpr/openalpr/wiki/Compilation-instructions-(Ubuntu-Linux)
+
+
 ## Introduction
 In this section we shall introduce the motivation for the introduction of BLINKAH. The supporting evidence presented henceforth will be with reference to entries 1&2 in the bibliography
 
