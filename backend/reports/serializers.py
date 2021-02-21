@@ -6,7 +6,7 @@ class ReportSerializer(serializers.ModelSerializer):
 		max_length=None,
 		use_url=True
 	)
- 	class Meta:
+	class Meta:
        	model = Report
         fields = [
         	'license_plate',
