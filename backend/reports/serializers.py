@@ -7,7 +7,7 @@ class ReportSerializer(serializers.ModelSerializer):
 		use_url=True
 	)
 	class Meta:
-       	model = Report
+		model = Report
         fields = [
         	'license_plate',
         	'speed',
