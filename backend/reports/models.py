@@ -2,6 +2,9 @@ from django.db import models
 
 # Create your models here.
 
+def reportCaptures(instance, filename):
+	return '/'.join( ['captures', str(instance.id), filename])
+
 class Report(models.Model):
     license_plate = models.CharField(max_length=16)
     speed = models.IntegerField()
@@ -10,7 +13,7 @@ class Report(models.Model):
     timestamp = models.CharField(max_length=16)
     latitude = models.DecimalField(decimal_places=4,max_digits=10)
     longitude = models.DecimalField(decimal_places=4,max_digits=10)
-    #photograph = models.ImageField(upload_to="report_captures")
+    photograph = models.ImageField(upload_to=reportCaptures, max_length=255, blank=True, null=True)
     unit_id = models.IntegerField()
 
 class Statistics(models.Model):

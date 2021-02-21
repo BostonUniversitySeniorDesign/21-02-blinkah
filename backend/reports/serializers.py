@@ -2,7 +2,10 @@ from rest_framework import serializers
 from .models import Report, Statistics
 
 class ReportSerializer(serializers.ModelSerializer):
-    class Meta:
+
+photograph = serializers.ImageField(max_length=None, use_url=True)
+    
+class Meta:
         model = Report
         fields = [
             'license_plate',
@@ -11,7 +14,8 @@ class ReportSerializer(serializers.ModelSerializer):
             'confidence',
             'latitude',
             'longitude',
-            'unit_id'
+            'unit_id',
+	    'photograph'	
         ]
 
 class StatisticsSerializer(serializers.ModelSerializer):
