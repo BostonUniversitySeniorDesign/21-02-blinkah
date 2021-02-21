@@ -8,15 +8,15 @@ class ReportSerializer(serializers.ModelSerializer):
 	)
 	class Meta:
 		model = Report
-        fields = [
-        	'license_plate',
-        	'speed',
-        	'infraction',
-            'confidence',
-            'latitude',
-            'longitude',
-            'unit_id',
-	    	'photograph'
+		fields = [
+			'license_plate',
+			'speed',
+			'infraction',
+			'confidence',
+			'latitude',
+			'longitude',
+			'unit_id',
+			'photograph'
         ]
 
 class StatisticsSerializer(serializers.ModelSerializer):
