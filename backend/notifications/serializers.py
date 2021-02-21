@@ -10,3 +10,4 @@ class NotificationSerializer(serializers.ModelSerializer):
             'longitude',
             'license_plate'
         ]
+        
