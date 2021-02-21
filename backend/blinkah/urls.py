@@ -15,7 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from reports import views as rviews
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('reports/', rviews.ReportList.as_view()),
+    path('reports/<int:pk>/', rviews.ReportDetail.as_view()),
+    path('statistics/<int:pk>/', rviews.StatisticsDetail.as_view()),
 ]

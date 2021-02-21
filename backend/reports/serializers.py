@@ -1,0 +1,23 @@
+from rest_framework import serializers
+from .models import Report, Statistics
+
+class ReportSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Report
+        fields = [
+            'license_plate',
+            'speed',
+            'infraction',
+            'confidence',
+            'latitude',
+            'longitude',
+            'unit_id'
+        ]
+
+class StatisticsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Statistics
+        fields = [
+            'total_reports',
+            'avg_confidence'
+        ]
