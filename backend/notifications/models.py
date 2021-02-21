@@ -1,7 +1,5 @@
 from django.db import models
 
-# Create your models here.
-
 class Notification(models.Model):
     message_text = models.CharField(max_length=255)
     latitude = models.DecimalField(decimal_places=4,max_digits=10)
