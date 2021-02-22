@@ -11,7 +11,7 @@ class ReportSerializer(serializers.ModelSerializer):
 		fields = [
 			'id',
 			'license_plate',
-			'note',
+			'speed',
 			'infraction',
 			'confidence',
 			'latitude',
