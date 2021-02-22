@@ -15,7 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from reports import views as rviews
+from notifications import views as nviews
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('reports/', rviews.ReportList.as_view()),
+    path('reports/<int:pk>/', rviews.ReportDetail.as_view()),
+    path('statistics/<int:pk>/', rviews.StatisticsDetail.as_view()),
+    path('notifications/', nviews.NotificationList.as_view()),
+    path('notifications/<int:pk>/', nviews.NotificationDetail.as_view()),
 ]
