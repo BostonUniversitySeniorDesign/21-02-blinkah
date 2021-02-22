@@ -7,6 +7,7 @@
   "dependencies": {
     "@material-ui/core": "4.10.0",
     "@material-ui/icons": "4.9.1",
+    "axios": "^0.21.1",
     "chartist": "0.10.1",
     "classnames": "2.2.6",
     "history": "4.10.1",
