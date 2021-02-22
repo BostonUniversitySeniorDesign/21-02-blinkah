@@ -9,6 +9,7 @@ class ReportSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Report
 		fields = [
+			'id',
 			'license_plate',
 			'speed',
 			'infraction',
@@ -16,7 +17,8 @@ class ReportSerializer(serializers.ModelSerializer):
 			'latitude',
 			'longitude',
 			'unit_id',
-			'photograph'
+			'photograph',
+			'timestamp'
         ]
 
 class StatisticsSerializer(serializers.ModelSerializer):
