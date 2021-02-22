@@ -16,7 +16,8 @@ class ReportSerializer(serializers.ModelSerializer):
 			'latitude',
 			'longitude',
 			'unit_id',
-			'photograph'
+			'photograph',
+			'timestamp'
         ]
 
 class StatisticsSerializer(serializers.ModelSerializer):
