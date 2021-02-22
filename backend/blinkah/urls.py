@@ -17,6 +17,8 @@ from django.contrib import admin
 from django.urls import path
 from reports import views as rviews
 from notifications import views as nviews
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,4 +27,4 @@ urlpatterns = [
     path('statistics/<int:pk>/', rviews.StatisticsDetail.as_view()),
     path('notifications/', nviews.NotificationList.as_view()),
     path('notifications/<int:pk>/', nviews.NotificationDetail.as_view()),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
