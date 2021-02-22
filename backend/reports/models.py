@@ -4,6 +4,7 @@ from django.db import models
 
 def reportCaptures(instance, filename):
 	return '/'.join( ['captures', str(instance.id), filename])
+        #return filename
 
 class Report(models.Model):
     license_plate = models.CharField(max_length=16)
