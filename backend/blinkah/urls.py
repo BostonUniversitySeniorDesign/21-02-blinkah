@@ -22,9 +22,15 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
     path('reports/', rviews.ReportList.as_view()),
     path('reports/<int:pk>/', rviews.ReportDetail.as_view()),
+    path('reports/unit_id/<int:unit_id>/', rviews.ReportFilterUnitID.as_view()),
+    path('reports/license_plate/<str:license_plate>/', rviews.ReportFilterLicensePlate.as_view()),
+
     path('statistics/<int:pk>/', rviews.StatisticsDetail.as_view()),
+
     path('notifications/', nviews.NotificationList.as_view()),
-    path('notifications/<int:pk>/', nviews.NotificationDetail.as_view()),
+    path('notifications/<int:pk>', nviews.NotificationDetail.as_view()),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
