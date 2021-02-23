@@ -49,8 +49,17 @@ BLINKAH is a behavior-based insurance system that uses Computer Vision to analyz
     "start": "NODE_PATH=./src react-scripts start",
     ```
 ## Backend Run Instructions
+Steps to run Django backend server in debug mode (requires Python 3, PIP, and virtualenv):
+
+```
+cd backend
+source env/bin/activate
+pip install -r requirements.txt
+python manage.py runserver 0.0.0.0:8000
+```
 
 ## Server Setup Instructions
+N/A
 
 ## OpenALPR Setup Instructions
 We decided to use OpenALPR, an open-source Automatic License Plate Recognition library software to handle the bulk of our computer vision and machine learning processes. It is based in C++ with dependencies available in python3, so we are using OpenCV as well as tesseract to handle the translation of license plates to text.
