@@ -50,8 +50,13 @@ var licensePlate = ""
 
 export default function TableList() {
   function handleData() {
+    var x = document.getElementById("input1").value
+    console.log(x)
+    var y = "http://161.35.50.175:8000/reports/license_plate/"
+    var z = y.concat(x)
+    var z = z.concat("/")
     axios
-      .get("http://161.35.50.175:8000/reports/license_plate/BC18351/")
+      .get(z)
       .then((res) => {
         console.log("response from main API: ", res);
         console.log("Data from API: ", res.data);
@@ -75,7 +80,7 @@ export default function TableList() {
     <GridContainer>
       <GridItem xs={12} sm={12} md={12}>
       <div className={classes.searchWrapper}>
-        <CustomInput
+        <CustomInput id="input1"
           formControlProps={{
             className: classes.margin + " " + classes.search
           }}
