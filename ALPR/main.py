@@ -1,3 +1,6 @@
+# Commit by Ram Bukkarayasamudram Rbukka@bu.edu @RamB99
+
+
 # Python script to run OpenALPR code & create post requests
 
 # ******************1st part******************
@@ -20,7 +23,7 @@ pic_val = "car"+car_num+".jpg"
 
 # Making CLI call to generate plate readings
 #os.system("alpr -c us " + pic_val)
-proc = subprocess.Popen(["alpr -c us "+pic_val], stdout = subprocess.PIPE, shell = True)
+proc = subprocess.Popen(["alpr -c us /sample_data/"+pic_val], stdout = subprocess.PIPE, shell = True)
 (out, err) = proc.communicate()
 
 use_val = str(out, 'utf-8')
@@ -59,8 +62,8 @@ with open("Reports.json", "w") as outfile:
 # Need to send generated data to server
 # Specifically post request to /reports/
 
-url = '161.35.50.175:8000/reports/'
-files = {'media': open('Reports.json', 'rb')}
-requests.post(url, files=files)
-files2 = {'media': open('car1.jpg', 'rb')}
-requests.post(url, files=files2)
+# url = '161.35.50.175:8000/reports/'
+# files = {'media': open('Reports.json', 'rb')}
+# requests.post(url, files=files)
+# files2 = {'media': open('car1.jpg', 'rb')}
+# requests.post(url, files=files2)
