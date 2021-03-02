@@ -1,6 +1,5 @@
 # Commit by Ram Bukkarayasamudram Rbukka@bu.edu @RamB99
 
-
 # Python script to run OpenALPR code & create post requests
 
 # ******************1st part******************
@@ -23,7 +22,7 @@ pic_val = "car"+car_num+".jpg"
 
 # Making CLI call to generate plate readings
 #os.system("alpr -c us " + pic_val)
-proc = subprocess.Popen(["alpr -c us /sample_data/"+pic_val], stdout = subprocess.PIPE, shell = True)
+proc = subprocess.Popen(["alpr -c us "+pic_val], stdout = subprocess.PIPE, shell = True)
 (out, err) = proc.communicate()
 
 use_val = str(out, 'utf-8')
@@ -32,7 +31,7 @@ hyphen = use_val.find('-')
 use_val = use_val[hyphen+2:]
 
 # Removes hyphen from output
-asdf = use_val.split('- ')
+p_val = use_val.split('- ')
 #print (asdf)
 
 # Initializing array of dicts
@@ -40,7 +39,7 @@ plates = []
 
 # Parsing through string output generated from alpr command to format data 
 # Get rid of unnecessary spaces, characters, tabs, new lines, etc
-for elem in asdf:
+for elem in p_val:
     
     key = elem.find('\t')
     #print (elem[0:key])
@@ -62,8 +61,6 @@ with open("Reports.json", "w") as outfile:
 # Need to send generated data to server
 # Specifically post request to /reports/
 
-# url = '161.35.50.175:8000/reports/'
+# url = 'http://161.35.50.175:8000/reports'
 # files = {'media': open('Reports.json', 'rb')}
 # requests.post(url, files=files)
-# files2 = {'media': open('car1.jpg', 'rb')}
-# requests.post(url, files=files2)
