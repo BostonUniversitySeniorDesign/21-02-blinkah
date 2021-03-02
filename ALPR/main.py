@@ -18,7 +18,7 @@ print("Enter a value from 1 to 26")
 car_num = input()
 
 # parsing user input & concatenating it
-pic_val = "car"+car_num+".jpg"
+pic_val = "sample_data/car"+car_num+".jpg"
 
 # Making CLI call to generate plate readings
 #os.system("alpr -c us " + pic_val)
