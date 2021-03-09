@@ -1,6 +1,6 @@
 import sys, time
 from PyQt5 import QtCore, QtWidgets, QtGui
-
+from alpr import alpr
 
 class MainWindow(QtWidgets.QWidget):
 
@@ -176,7 +176,8 @@ class NavPage(QtWidgets.QWidget):
     "    background-color: rgba(255, 255, 255, 0);\n"
     "    border: 0px;\n"
     "}")
-    go_btn.setText("")
+
+    go_btn.setText(self.runALPR(1))
     icon = QtGui.QIcon()
     icon.addPixmap(QtGui.QPixmap("./graphics/chevron.png"), QtGui.QIcon.Normal, QtGui.QIcon.On)
     go_btn.setIcon(icon)
@@ -185,6 +186,12 @@ class NavPage(QtWidgets.QWidget):
 
     return go_btn
 
+  def runALPR(self, num):
+    plates = alpr(num)
+    text = plates[0].license_plate
+    return text
+
+# Defines connections between pages
 class Controller:
 
   def __init__(self):
