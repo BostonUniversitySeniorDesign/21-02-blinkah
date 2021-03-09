@@ -146,8 +146,8 @@ class NavPage(QtWidgets.QWidget):
     #self.bkg_img = self.bkg_img()
     #self.bkg_img.setParent(self)
 
-    #self.car_num_field = self.car_num_field()
-    #self.car_num_field.setParent(self)
+    self.car_num = 0
+    
 
     self.car_img = self.car_img()
     self.car_img.setParent(self)
@@ -165,6 +165,9 @@ class NavPage(QtWidgets.QWidget):
     self.go_btn.pressed.connect(self.press_go)
     self.go_btn.clicked.connect(self.click_go)
 
+
+
+
   def press_go(self):
     icon = QtGui.QIcon()
     icon.addPixmap(QtGui.QPixmap("./graphics/chevron_depressed.png"), QtGui.QIcon.Normal, QtGui.QIcon.On),
@@ -179,7 +182,8 @@ class NavPage(QtWidgets.QWidget):
     self.alpr_btn.setIcon(icon)
 
   def click_alpr(self):
-    self.runALPR('1')
+    self.car_num += 1
+    self.runALPR(str(self.car_num))
 
   def bkg_img(self):
     BkgImg = QtWidgets.QLabel('')
