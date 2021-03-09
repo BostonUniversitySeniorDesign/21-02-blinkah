@@ -81,36 +81,34 @@ class HomePage(QtWidgets.QWidget):
     return B
 
   def welcome_text(self):
-    WelcomeTo = QtWidgets.QLineEdit('Welcome To:')
+    WelcomeTo = QtWidgets.QLabel('Welcome To:')
     WelcomeTo.setGeometry(QtCore.QRect(30, 10, 571, 121))
     font = QtGui.QFont()
-    font.setFamily("Papyrus")
+    font.setFamily("Loma")
     font.setPointSize(72)
     WelcomeTo.setFont(font)
-    WelcomeTo.setStyleSheet("QLineEdit{\n"
-    "    color: rgb(214, 58, 25);\n"
-    "    background-color: rgba(255, 255, 255, 0);\n"
-    "    border: 0px;\n"
-    "    border-color: rgba(255, 255, 255, 0);\n"
-    "}")
-    WelcomeTo.setReadOnly(True)
+    WelcomeTo.setStyleSheet(
+      "color: rgb(214, 58, 25);"
+      "background-color: rgba(255, 255, 255, 0);"
+      "border: 0px;\n"
+      "border-color: rgba(255, 255, 255, 0);"
+    )
     WelcomeTo.setObjectName("WelcomeTo")
     return WelcomeTo
 
   def linkah_text(self):
-    Linkah = QtWidgets.QLineEdit('LINKAH')
+    Linkah = QtWidgets.QLabel('LINKAH')
     Linkah.setGeometry(QtCore.QRect(250, 170, 421, 121))
     font = QtGui.QFont()
-    font.setFamily("Arial")
+    font.setFamily("Loma")
     font.setPointSize(86)
     Linkah.setFont(font)
-    Linkah.setStyleSheet("QLineEdit{\n"
-      "    color: rgb(0, 0, 0);\n"
-      "    background-color: rgba(255, 255, 255, 0);\n"
-      "    border: 0px;\n"
-      "    border-color: rgba(255, 255, 255, 0);\n"
-      "}")
-    Linkah.setReadOnly(True)
+    Linkah.setStyleSheet(
+      "color: rgb(0, 0, 0);"
+      "background-color: rgba(255, 255, 255, 0);"
+      "border: 0px;"
+      "border-color: rgba(255, 255, 255, 0);"
+    )
     Linkah.setObjectName("LINKAH")
     return Linkah
 
@@ -145,21 +143,43 @@ class NavPage(QtWidgets.QWidget):
     flags = QtCore.Qt.WindowFlags(QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint)
     self.setWindowFlags(flags)
 
-    self.bkg_img = self.bkg_img()
-    self.bkg_img.setParent(self)
+    #self.bkg_img = self.bkg_img()
+    #self.bkg_img.setParent(self)
+
+    #self.car_num_field = self.car_num_field()
+    #self.car_num_field.setParent(self)
+
+    self.car_img = self.car_img()
+    self.car_img.setParent(self)
+
+    self.plate_reading = self.plate_reading()
+    self.plate_reading.setParent(self)
+
+    self.alpr_btn = self.alpr_btn()
+    self.alpr_btn.setParent(self)
+    self.alpr_btn.pressed.connect(self.press_alpr)
+    self.alpr_btn.clicked.connect(self.click_alpr)
 
     self.go_btn = self.go_btn()
     self.go_btn.setParent(self)
-    self.go_btn.pressed.connect(self.press)
-    self.go_btn.clicked.connect(self.click)
+    self.go_btn.pressed.connect(self.press_go)
+    self.go_btn.clicked.connect(self.click_go)
 
-  def click(self):
-    self.switch_window.emit()
-
-  def press(self):
+  def press_go(self):
     icon = QtGui.QIcon()
     icon.addPixmap(QtGui.QPixmap("./graphics/chevron_depressed.png"), QtGui.QIcon.Normal, QtGui.QIcon.On),
     self.go_btn.setIcon(icon)
+
+  def click_go(self):
+    self.switch_window.emit()
+
+  def press_alpr(self):
+    icon = QtGui.QIcon()
+    icon.addPixmap(QtGui.QPixmap("./graphics/chevron_depressed.png"), QtGui.QIcon.Normal, QtGui.QIcon.On),
+    self.alpr_btn.setIcon(icon)
+
+  def click_alpr(self):
+    self.runALPR('1')
 
   def bkg_img(self):
     BkgImg = QtWidgets.QLabel('')
@@ -167,6 +187,28 @@ class NavPage(QtWidgets.QWidget):
     BkgImg.setObjectName("BkgImg")
     BkgImg.setText("<html><head/><body><p><img src=\"./graphics/vis.png\"/></p></body></html>")
     return BkgImg
+
+  def car_img(self):
+    CarImg = QtWidgets.QLabel('')
+    CarImg.setGeometry(QtCore.QRect(0,0,500,375))
+    CarImg.setObjectName("PlateImg")
+    CarImg.setText("<html><head/><body><p><img src=\"./graphics/vis.png\"/></p></body></html>")
+
+    #CarImg.setText("<html><head/><body><p><img src=\""+'2'+"\"/></p></body></html>")
+    return CarImg
+  
+  def plate_reading(self):
+    PlateReading = QtWidgets.QLabel('')
+    PlateReading.setGeometry(QtCore.QRect(500,0,500,375))
+    PlateReading.setObjectName("PlateImg")
+    font = QtGui.QFont()
+    font.setFamily("Loma")
+    font.setPointSize(72)
+    PlateReading.setFont(font)
+    PlateReading.setStyleSheet("color: red")
+   
+    return PlateReading
+
 
   def go_btn(self):
     go_btn = QtWidgets.QPushButton('')
@@ -176,8 +218,7 @@ class NavPage(QtWidgets.QWidget):
     "    background-color: rgba(255, 255, 255, 0);\n"
     "    border: 0px;\n"
     "}")
-
-    go_btn.setText(self.runALPR(1))
+    go_btn.setText('')
     icon = QtGui.QIcon()
     icon.addPixmap(QtGui.QPixmap("./graphics/chevron.png"), QtGui.QIcon.Normal, QtGui.QIcon.On)
     go_btn.setIcon(icon)
@@ -186,10 +227,31 @@ class NavPage(QtWidgets.QWidget):
 
     return go_btn
 
+  def alpr_btn(self):
+    alpr_btn = QtWidgets.QPushButton('')
+    alpr_btn.setEnabled(True)
+    alpr_btn.setGeometry(QtCore.QRect(200, 300, 200, 200))
+    alpr_btn.setStyleSheet("QPushButton {\n"
+    "    background-color: rgba(255, 255, 255, 0);\n"
+    "    border: 0px;\n"
+    "}")
+    alpr_btn.setText('')
+    icon = QtGui.QIcon()
+    icon.addPixmap(QtGui.QPixmap("./graphics/chevron.png"), QtGui.QIcon.Normal, QtGui.QIcon.On)
+    alpr_btn.setIcon(icon)
+    alpr_btn.setIconSize(QtCore.QSize(128, 128))
+    alpr_btn.setObjectName("alpr_btn")
+
+    return alpr_btn
+
   def runALPR(self, num):
     plates = alpr(num)
-    text = plates[0].license_plate
-    return text
+    plate = plates[0].get('license_plate')
+    print(plate)
+    self.plate_reading.setText(plate)
+    pic_url = "sample_data/car"+num+".jpg"
+    self.car_img.setText("<html><head/><body><p><img src=\""+pic_url+"\"/></p></body></html>")
+    return plate
 
 # Defines connections between pages
 class Controller:

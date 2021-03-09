@@ -47,7 +47,7 @@ def alpr(num):
 
     plates.append({'license_plate': elem[0:key], 'confidence': float(elem[key2+2:key3])})
 
-  print (plates)
+  #print (plates)
 
   # Store plates (dict) as JSON in Reports.json
   #with open("Reports.json", "w") as outfile:
