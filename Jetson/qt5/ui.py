@@ -35,7 +35,7 @@ class HomePage(QtWidgets.QWidget):
     QtWidgets.QWidget.__init__(self)
     self.setGeometry(QtCore.QRect(0,0,1024,600))
     self.setWindowTitle("COPYRIGHT BLINKAH 2021-2069")
-    self.setWindowIcon(QtGui.QIcon("./graphics/B.png"))
+    #self.setWindowIcon(QtGui.QIcon("./graphics/B.png"))
 
     # Enable borderless windowed
     flags = QtCore.Qt.WindowFlags(QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint)
@@ -139,7 +139,7 @@ class NavPage(QtWidgets.QWidget):
     QtWidgets.QWidget.__init__(self)
     self.setGeometry(QtCore.QRect(0,0,1024,600))
     self.setWindowTitle("COPYRIGHT BLINKAH 2021-2069")
-    self.setWindowIcon(QtGui.QIcon("./graphics/B.png"))
+    #self.setWindowIcon(QtGui.QIcon("./graphics/B.png"))
 
     # Enable borderless windowed
     flags = QtCore.Qt.WindowFlags(QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint)
