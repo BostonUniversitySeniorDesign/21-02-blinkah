@@ -158,6 +158,14 @@ class NavPage(QtWidgets.QWidget):
     self.plate_reading = self.plate_reading()
     self.plate_reading.setParent(self)
 
+    self.plate_conf = self.plate_conf()
+    self.plate_conf.setParent(self)
+
+    self.next_btn = self.next_btn()
+    self.next_btn.setParent(self)
+    self.next_btn.pressed.connect(self.press_next)
+    self.next_btn.clicked.connect(self.click_next)
+    
     self.alpr_btn = self.alpr_btn()
     self.alpr_btn.setParent(self)
     self.alpr_btn.pressed.connect(self.press_alpr)
@@ -171,22 +179,11 @@ class NavPage(QtWidgets.QWidget):
 
 
 
-  def press_go(self):
-    icon = QtGui.QIcon()
-    icon.addPixmap(QtGui.QPixmap("./graphics/chevron_depressed.png"), QtGui.QIcon.Normal, QtGui.QIcon.On),
-    self.go_btn.setIcon(icon)
 
-  def click_go(self):
-    self.switch_window.emit()
+  #                  #
+  #  HUD. Functions  #
+  #                  #
 
-  def press_alpr(self):
-    icon = QtGui.QIcon()
-    icon.addPixmap(QtGui.QPixmap("./graphics/chevron_depressed.png"), QtGui.QIcon.Normal, QtGui.QIcon.On),
-    self.alpr_btn.setIcon(icon)
-
-  def click_alpr(self):
-    self.car_num += 1
-    self.runALPR(str(self.car_num))
 
   def bkg_img(self):
     BkgImg = QtWidgets.QLabel('')
@@ -203,35 +200,6 @@ class NavPage(QtWidgets.QWidget):
 
     #CarImg.setText(graphic_text('graphics/vis.png'))
     self.roundImage(CarImg, 'graphics/vis.png')
-    return CarImg
-
-  def roundImage(self, CarImg, path):
-    pixmap = QtGui.QPixmap(path)
-    radius = 50
-
-    # create empty pixmap of same size as original 
-    rounded = QtGui.QPixmap(473, 253)
-    rounded.fill(QtGui.QColor("transparent"))
-
-    # draw rounded rect on new pixmap using original pixmap as brush
-    painter = QtGui.QPainter(rounded)
-    painter.setRenderHint(QtGui.QPainter.Antialiasing)
-    painter.setBrush(QtGui.QBrush(pixmap))
-    painter.setPen(QtCore.Qt.NoPen)
-
-    #painter.drawRect(0, 0, 473, 253)
-
-    path = QtGui.QPainterPath()
-    path.setFillRule( QtCore.Qt.WindingFill )
-    rect = QtCore.QRectF(0, 0, 473, 253)
-    path.addRoundedRect( rect, 50, 50 )
-    path.addRect( 0, 0, 50, 50 ) # Top left corner not rounded
-    painter.drawPath( path.simplified() )
-
-    
-    # set pixmap of label
-    CarImg.setPixmap(rounded)
-    painter.end()
 
     return CarImg
   
@@ -240,21 +208,33 @@ class NavPage(QtWidgets.QWidget):
     Hud.setGeometry(QtCore.QRect(0,0,1024,600))
     Hud.setObjectName("Hud")
     Hud.setText(graphic_text('graphics/nav/nav_page_read.png'))
+
     return Hud
   
 
   def plate_reading(self):
     PlateReading = QtWidgets.QLabel('')
-    PlateReading.setGeometry(QtCore.QRect(500,0,500,375))
+    PlateReading.setGeometry(QtCore.QRect(100,45,165,44))
     PlateReading.setObjectName("PlateImg")
     font = QtGui.QFont()
-    font.setFamily("Loma")
-    font.setPointSize(72)
+    font.setFamily("LICENSE PLATE USA")
+    font.setPointSize(28)
     PlateReading.setFont(font)
     PlateReading.setStyleSheet("color: red")
-   
+
     return PlateReading
 
+  def plate_conf(self):
+    PlateConf = QtWidgets.QLabel('')
+    PlateConf.setGeometry(QtCore.QRect(290,56,110,30))
+    PlateConf.setObjectName("PlateImg")
+    font = QtGui.QFont()
+    font.setFamily("Loma")
+    font.setPointSize(20)
+    PlateConf.setFont(font)
+    PlateConf.setStyleSheet("color: red")
+
+    return PlateConf
 
   def go_btn(self):
     go_btn = QtWidgets.QPushButton('')
@@ -273,37 +253,126 @@ class NavPage(QtWidgets.QWidget):
 
     return go_btn
 
-  def alpr_btn(self):
-    alpr_btn = QtWidgets.QPushButton('')
-    alpr_btn.setEnabled(True)
-    alpr_btn.setGeometry(QtCore.QRect(200, 300, 200, 200))
-    alpr_btn.setStyleSheet("QPushButton {\n"
+  def next_btn(self):
+    next_btn = QtWidgets.QPushButton('')
+    next_btn.setEnabled(True)
+    next_btn.setGeometry(QtCore.QRect(200, 300, 200, 200))
+    next_btn.setStyleSheet("QPushButton {\n"
     "    background-color: rgba(255, 255, 255, 0);\n"
     "    border: 0px;\n"
     "}")
-    alpr_btn.setText('')
+    next_btn.setText('')
     icon = QtGui.QIcon()
     icon.addPixmap(QtGui.QPixmap("./graphics/chevron.png"), QtGui.QIcon.Normal, QtGui.QIcon.On)
-    alpr_btn.setIcon(icon)
+    next_btn.setIcon(icon)
+    next_btn.setIconSize(QtCore.QSize(128, 128))
+    next_btn.setObjectName("next_btn")
+
+    return next_btn
+
+  def alpr_btn(self):
+    alpr_btn = QtWidgets.QPushButton('')
+    alpr_btn.setEnabled(True)
+    alpr_btn.setGeometry(QtCore.QRect(28, 114, 110, 126))
+    alpr_btn.setStyleSheet("QPushButton {\n"
+    "    background-color: rgba(255, 255, 255, 50);\n"
+    "    border: 0px;\n"
+    "}")
+    alpr_btn.setText('')
     alpr_btn.setIconSize(QtCore.QSize(128, 128))
     alpr_btn.setObjectName("alpr_btn")
 
     return alpr_btn
 
+  #                  #
+  # Helper Functions #
+  #                  #
+
+  def roundImage(self, CarImg, path):
+    pixmap = QtGui.QPixmap(path)
+    pixmap = pixmap.scaled(473,253)
+
+    # create empty pixmap of same size as original 
+    rounded = QtGui.QPixmap(473, 253)
+    rounded.fill(QtGui.QColor("transparent"))
+    
+
+    # draw rounded rect on new pixmap using original pixmap as brush
+    painter = QtGui.QPainter(rounded)
+    painter.setRenderHint(QtGui.QPainter.Antialiasing)
+    painter.setBrush(QtGui.QBrush(pixmap))
+    painter.setPen(QtCore.Qt.NoPen)
+
+    #painter.drawRect(0, 0, 473, 253)
+
+    path = QtGui.QPainterPath()
+    path.setFillRule( QtCore.Qt.WindingFill )
+    rect = QtCore.QRectF(0, 0, 473, 253)
+    path.addRoundedRect( rect, 50, 50 )
+    path.addRect( 0, 0, 50, 50 ) # Top left corner not rounded
+    painter.drawPath( path.simplified() )
+
+
+    
+    # set pixmap of label
+    CarImg.setPixmap(rounded)
+    painter.end()
+
+    return CarImg
+
+  #                  #
+  # Active Functions #
+  #                  #
+
+  def press_next(self):
+    icon = QtGui.QIcon()
+    icon.addPixmap(QtGui.QPixmap("./graphics/chevron_depressed.png"), QtGui.QIcon.Normal, QtGui.QIcon.On),
+    self.next_btn.setIcon(icon)
+
+  def click_next(self):
+    self.car_num += 1
+    path = "sample_data/car"+str(self.car_num)+".jpg"    
+    self.roundImage(self.car_img, path)
+    self.hud.setText(graphic_text('graphics/nav/nav_page_read'))
+    self.plate_reading.setText('')
+    self.plate_conf.setText('')
+
+  def press_alpr(self):
+    self.hud.setText(graphic_text('graphics/nav/nav_page_clicked'))
+
+  def click_alpr(self):
+    self.runALPR(str(self.car_num))
+    self.hud.setText(graphic_text('graphics/nav/nav_page_read'))
+    if (self.plate_reading.text() == ''):
+      self.plate_reading.setText('FAILURE')
+      self.plate_conf.setText('00%')
+
+  def press_go(self):
+    icon = QtGui.QIcon()
+    icon.addPixmap(QtGui.QPixmap("./graphics/chevron_depressed.png"), QtGui.QIcon.Normal, QtGui.QIcon.On),
+    self.go_btn.setIcon(icon)
+
+  def click_go(self):
+    self.switch_window.emit()
+
+
+
+
+
+  #                  #
+  # Machine Learning #
+  #                  #
+
   def runALPR(self, num):
     plates = alpr(num)
     plate = plates[0].get('license_plate')
     print(plate)
-    self.plate_reading.setText(plate)
-    path = "sample_data/car"+num+".jpg"
-
-    #pixmap = QtGui.QPixmap(pic_url)
-    #pixmap = round_pixmap(pixmap,300)
-    
-    
-    self.roundImage(self.car_img, path)
+    conf = str(round(plates[0].get('confidence'))) + '%'
+    self.plate_reading.setText(plate.lower())
+    self.plate_conf.setText(conf)
     
     return plate
+
 
 # Defines connections between pages
 class Controller:
