@@ -178,7 +178,7 @@ class NavPage(QtWidgets.QWidget):
     self.go_btn.clicked.connect(self.click_go)
 
 
-    self.rep_btn = self.report_btn()
+    self.rep_btn = self.rep_btn()
     self.rep_btn.setParent(self)
     self.rep_btn.pressed.connect(self.press_rep)
     self.rep_btn.clicked.connect(self.click_rep)
@@ -243,22 +243,6 @@ class NavPage(QtWidgets.QWidget):
 
     return PlateConf
 
-  def go_btn(self):
-    go_btn = QtWidgets.QPushButton('')
-    go_btn.setEnabled(True)
-    go_btn.setGeometry(QtCore.QRect(600, 300, 200, 200))
-    go_btn.setStyleSheet("QPushButton {\n"
-    "    background-color: rgba(255, 255, 255, 0);\n"
-    "    border: 0px;\n"
-    "}")
-    go_btn.setText('')
-    icon = QtGui.QIcon()
-    icon.addPixmap(QtGui.QPixmap("./graphics/chevron.png"), QtGui.QIcon.Normal, QtGui.QIcon.On)
-    go_btn.setIcon(icon)
-    go_btn.setIconSize(QtCore.QSize(128, 128))
-    go_btn.setObjectName("go_btn")
-
-    return go_btn
 
   def next_btn(self):
     next_btn = QtWidgets.QPushButton('')
@@ -276,6 +260,37 @@ class NavPage(QtWidgets.QWidget):
     next_btn.setObjectName("next_btn")
 
     return next_btn
+
+  def alpr_btn(self):
+    alpr_btn = QtWidgets.QPushButton('')
+    alpr_btn.setEnabled(True)
+    alpr_btn.setGeometry(QtCore.QRect(28, 114, 110, 126))
+    alpr_btn.setStyleSheet("QPushButton {\n"
+    "    background-color: rgba(255, 255, 255, 50);\n"
+    "    border: 0px;\n"
+    "}")
+    alpr_btn.setText('')
+    alpr_btn.setIconSize(QtCore.QSize(128, 128))
+    alpr_btn.setObjectName("alpr_btn")
+
+    return alpr_btn
+
+  def go_btn(self):
+    go_btn = QtWidgets.QPushButton('')
+    go_btn.setEnabled(True)
+    go_btn.setGeometry(QtCore.QRect(600, 300, 200, 200))
+    go_btn.setStyleSheet("QPushButton {\n"
+    "    background-color: rgba(255, 255, 255, 0);\n"
+    "    border: 0px;\n"
+    "}")
+    go_btn.setText('')
+    icon = QtGui.QIcon()
+    icon.addPixmap(QtGui.QPixmap("./graphics/chevron.png"), QtGui.QIcon.Normal, QtGui.QIcon.On)
+    go_btn.setIcon(icon)
+    go_btn.setIconSize(QtCore.QSize(128, 128))
+    go_btn.setObjectName("go_btn")
+
+    return go_btn
 
   def rep_btn(self):
     rep_btn = QtWidgets.QPushButton('')
@@ -396,7 +411,6 @@ class NavPage(QtWidgets.QWidget):
   def runALPR(self, num):
     plates = alpr(num)
     plate = plates[0].get('license_plate')
-    print(plate)
     conf = str(round(plates[0].get('confidence'))) + '%'
     self.plate_reading.setText(plate.lower())
     self.plate_conf.setText(conf)
