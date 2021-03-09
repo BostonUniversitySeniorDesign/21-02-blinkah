@@ -50,9 +50,13 @@ def alpr(num):
     plate =  elem[0:key]
     conf = elem[key2+2:key3]
 
+    if (plate == ''):
+      plate = 'NOIMG'
+      conf = '0'
     if (plate == 'o license plates found.' or conf == ' license plates found.'):
       plate = ''
       conf = '0'
+    
 
 
     plates.append({'license_plate': plate, 'confidence': float(conf)})

@@ -147,7 +147,6 @@ class NavPage(QtWidgets.QWidget):
     self.bkg_img.setParent(self)
 
     self.car_num = 0
-    
 
     self.car_img = self.car_img()
     self.car_img.setParent(self)
@@ -165,17 +164,25 @@ class NavPage(QtWidgets.QWidget):
     self.next_btn.setParent(self)
     self.next_btn.pressed.connect(self.press_next)
     self.next_btn.clicked.connect(self.click_next)
+    self.next_btn.released.connect(self.release_next)
     
     self.alpr_btn = self.alpr_btn()
     self.alpr_btn.setParent(self)
     self.alpr_btn.pressed.connect(self.press_alpr)
     self.alpr_btn.clicked.connect(self.click_alpr)
 
+
     self.go_btn = self.go_btn()
     self.go_btn.setParent(self)
     self.go_btn.pressed.connect(self.press_go)
     self.go_btn.clicked.connect(self.click_go)
 
+
+    self.rep_btn = self.report_btn()
+    self.rep_btn.setParent(self)
+    self.rep_btn.pressed.connect(self.press_rep)
+    self.rep_btn.clicked.connect(self.click_rep)
+    self.rep_btn.released.connect(self.release_rep)
 
 
 
@@ -256,33 +263,35 @@ class NavPage(QtWidgets.QWidget):
   def next_btn(self):
     next_btn = QtWidgets.QPushButton('')
     next_btn.setEnabled(True)
-    next_btn.setGeometry(QtCore.QRect(200, 300, 200, 200))
+    next_btn.setGeometry(QtCore.QRect(195, 245, 200, 200))
     next_btn.setStyleSheet("QPushButton {\n"
     "    background-color: rgba(255, 255, 255, 0);\n"
     "    border: 0px;\n"
     "}")
     next_btn.setText('')
     icon = QtGui.QIcon()
-    icon.addPixmap(QtGui.QPixmap("./graphics/chevron.png"), QtGui.QIcon.Normal, QtGui.QIcon.On)
+    icon.addPixmap(QtGui.QPixmap("./graphics/next_arrow_2.png"), QtGui.QIcon.Normal, QtGui.QIcon.On)
     next_btn.setIcon(icon)
     next_btn.setIconSize(QtCore.QSize(128, 128))
     next_btn.setObjectName("next_btn")
 
     return next_btn
 
-  def alpr_btn(self):
-    alpr_btn = QtWidgets.QPushButton('')
-    alpr_btn.setEnabled(True)
-    alpr_btn.setGeometry(QtCore.QRect(28, 114, 110, 126))
-    alpr_btn.setStyleSheet("QPushButton {\n"
-    "    background-color: rgba(255, 255, 255, 50);\n"
+  def rep_btn(self):
+    rep_btn = QtWidgets.QPushButton('')
+    rep_btn.setEnabled(True)
+    rep_btn.setGeometry(QtCore.QRect(700, 40, 256, 256))
+    rep_btn.setStyleSheet("QPushButton {\n"
+    "    background-color: rgba(255, 255, 255, 0);\n"
     "    border: 0px;\n"
     "}")
-    alpr_btn.setText('')
-    alpr_btn.setIconSize(QtCore.QSize(128, 128))
-    alpr_btn.setObjectName("alpr_btn")
+    icon = QtGui.QIcon()
+    icon.addPixmap(QtGui.QPixmap("./graphics/logo_256x256.png"), QtGui.QIcon.Normal, QtGui.QIcon.On)
+    rep_btn.setIcon(icon)
+    rep_btn.setIconSize(QtCore.QSize(256, 256))
+    rep_btn.setObjectName("rep_btn")
 
-    return alpr_btn
+    return rep_btn
 
   #                  #
   # Helper Functions #
@@ -326,7 +335,7 @@ class NavPage(QtWidgets.QWidget):
 
   def press_next(self):
     icon = QtGui.QIcon()
-    icon.addPixmap(QtGui.QPixmap("./graphics/chevron_depressed.png"), QtGui.QIcon.Normal, QtGui.QIcon.On),
+    icon.addPixmap(QtGui.QPixmap("graphics/next_arrow.png"), QtGui.QIcon.Normal, QtGui.QIcon.On),
     self.next_btn.setIcon(icon)
 
   def click_next(self):
@@ -336,6 +345,14 @@ class NavPage(QtWidgets.QWidget):
     self.hud.setText(graphic_text('graphics/nav/nav_page_read'))
     self.plate_reading.setText('')
     self.plate_conf.setText('')
+    icon = QtGui.QIcon()
+    icon.addPixmap(QtGui.QPixmap("graphics/next_arrow_2.png"), QtGui.QIcon.Normal, QtGui.QIcon.On),
+    self.next_btn.setIcon(icon)
+
+  def release_next(self):
+    icon = QtGui.QIcon()
+    icon.addPixmap(QtGui.QPixmap("graphics/next_arrow_2.png"), QtGui.QIcon.Normal, QtGui.QIcon.On),
+    self.next_btn.setIcon(icon)
 
   def press_alpr(self):
     self.hud.setText(graphic_text('graphics/nav/nav_page_clicked'))
@@ -355,7 +372,20 @@ class NavPage(QtWidgets.QWidget):
   def click_go(self):
     self.switch_window.emit()
 
+  def press_rep(self):
+    icon = QtGui.QIcon()
+    icon.addPixmap(QtGui.QPixmap("graphics/logo_256x256_2.png"), QtGui.QIcon.Normal, QtGui.QIcon.On),
+    self.rep_btn.setIcon(icon)
 
+  def click_rep(self):
+    icon = QtGui.QIcon()
+    icon.addPixmap(QtGui.QPixmap("graphics/logo_256x256.png"), QtGui.QIcon.Normal, QtGui.QIcon.On),
+    self.rep_btn.setIcon(icon)
+
+  def release_rep(self):
+    icon = QtGui.QIcon()
+    icon.addPixmap(QtGui.QPixmap("graphics/logo_256x256.png"), QtGui.QIcon.Normal, QtGui.QIcon.On),
+    self.rep_btn.setIcon(icon)
 
 
 
