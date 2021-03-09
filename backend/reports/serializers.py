@@ -4,7 +4,8 @@ from .models import Report, Statistics
 class ReportSerializer(serializers.ModelSerializer):
 	photograph = serializers.ImageField(
 		max_length=None,
-		use_url=True
+		use_url=True,
+		required=False
 	)
 	class Meta:
 		model = Report
