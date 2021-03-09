@@ -143,14 +143,17 @@ class NavPage(QtWidgets.QWidget):
     flags = QtCore.Qt.WindowFlags(QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint)
     self.setWindowFlags(flags)
 
-    #self.bkg_img = self.bkg_img()
-    #self.bkg_img.setParent(self)
+    self.bkg_img = self.bkg_img()
+    self.bkg_img.setParent(self)
 
     self.car_num = 0
     
 
     self.car_img = self.car_img()
     self.car_img.setParent(self)
+
+    self.hud = self.hud()
+    self.hud.setParent(self)
 
     self.plate_reading = self.plate_reading()
     self.plate_reading.setParent(self)
@@ -187,20 +190,59 @@ class NavPage(QtWidgets.QWidget):
 
   def bkg_img(self):
     BkgImg = QtWidgets.QLabel('')
-    BkgImg.setGeometry(QtCore.QRect(0, -100, 1024, 700))
+    BkgImg.setGeometry(QtCore.QRect(0, 0, 1024, 600))
     BkgImg.setObjectName("BkgImg")
-    BkgImg.setText("<html><head/><body><p><img src=\"./graphics/vis.png\"/></p></body></html>")
+    BkgImg.setText(graphic_text('graphics/nav/nav_bkg.png'))
     return BkgImg
 
   def car_img(self):
-    CarImg = QtWidgets.QLabel('')
-    CarImg.setGeometry(QtCore.QRect(0,0,500,375))
+    CarImg = QtWidgets.QLabel('Hello')
+    CarImg.setGeometry(QtCore.QRect(74, 93, 473, 253))
     CarImg.setObjectName("PlateImg")
-    CarImg.setText("<html><head/><body><p><img src=\"./graphics/vis.png\"/></p></body></html>")
+    #CarImg.setPixmap(pixmap)
 
-    #CarImg.setText("<html><head/><body><p><img src=\""+'2'+"\"/></p></body></html>")
+    #CarImg.setText(graphic_text('graphics/vis.png'))
+    self.roundImage(CarImg, 'graphics/vis.png')
+    return CarImg
+
+  def roundImage(self, CarImg, path):
+    pixmap = QtGui.QPixmap(path)
+    radius = 50
+
+    # create empty pixmap of same size as original 
+    rounded = QtGui.QPixmap(473, 253)
+    rounded.fill(QtGui.QColor("transparent"))
+
+    # draw rounded rect on new pixmap using original pixmap as brush
+    painter = QtGui.QPainter(rounded)
+    painter.setRenderHint(QtGui.QPainter.Antialiasing)
+    painter.setBrush(QtGui.QBrush(pixmap))
+    painter.setPen(QtCore.Qt.NoPen)
+
+    #painter.drawRect(0, 0, 473, 253)
+
+    path = QtGui.QPainterPath()
+    path.setFillRule( QtCore.Qt.WindingFill )
+    rect = QtCore.QRectF(0, 0, 473, 253)
+    path.addRoundedRect( rect, 50, 50 )
+    path.addRect( 0, 0, 50, 50 ) # Top left corner not rounded
+    painter.drawPath( path.simplified() )
+
+    
+    # set pixmap of label
+    CarImg.setPixmap(rounded)
+    painter.end()
+
     return CarImg
   
+  def hud(self):
+    Hud = QtWidgets.QLabel('')
+    Hud.setGeometry(QtCore.QRect(0,0,1024,600))
+    Hud.setObjectName("Hud")
+    Hud.setText(graphic_text('graphics/nav/nav_page_read.png'))
+    return Hud
+  
+
   def plate_reading(self):
     PlateReading = QtWidgets.QLabel('')
     PlateReading.setGeometry(QtCore.QRect(500,0,500,375))
@@ -253,8 +295,14 @@ class NavPage(QtWidgets.QWidget):
     plate = plates[0].get('license_plate')
     print(plate)
     self.plate_reading.setText(plate)
-    pic_url = "sample_data/car"+num+".jpg"
-    self.car_img.setText("<html><head/><body><p><img src=\""+pic_url+"\"/></p></body></html>")
+    path = "sample_data/car"+num+".jpg"
+
+    #pixmap = QtGui.QPixmap(pic_url)
+    #pixmap = round_pixmap(pixmap,300)
+    
+    
+    self.roundImage(self.car_img, path)
+    
     return plate
 
 # Defines connections between pages
@@ -287,6 +335,9 @@ class Controller:
     self.HomePage.show()
     time.sleep(.1)
     self.NavPage.close()
+
+def graphic_text(path):
+  return "<html><head/><body><p><img src=\""+path+"\"/></p></body></html>"
 
 def main():
   app = QtWidgets.QApplication(sys.argv)
