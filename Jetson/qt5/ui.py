@@ -1,6 +1,7 @@
 import sys, time
 from PyQt5 import QtCore, QtWidgets, QtGui
 from alpr import alpr
+from datetime import datetime
 
 class MainWindow(QtWidgets.QWidget):
 
@@ -41,11 +42,15 @@ class HomePage(QtWidgets.QWidget):
     flags = QtCore.Qt.WindowFlags(QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint)
     self.setWindowFlags(flags)
 
+    self.bkg_img = self.bkg_img()
+    self.bkg_img.setParent(self)
+
     self.logo = self.logo_img()
     self.logo.setParent(self)
 
     self.b = self.b_img()
     self.b.setParent(self)
+
 
     self.welcome = self.welcome_text()
     self.welcome.setParent(self)
@@ -57,6 +62,23 @@ class HomePage(QtWidgets.QWidget):
     self.go_btn.setParent(self)
     self.go_btn.pressed.connect(self.press)
     self.go_btn.clicked.connect(self.click)
+
+    self.time_box = self.time_box()
+    self.time_box.setParent(self)
+
+    self.time = self.time()
+    self.time.setParent(self)
+    timer = QtCore.QTimer(self) 
+    timer.timeout.connect(self.showTime) 
+    timer.setObjectName("Time")
+    timer.start(1000)
+
+  def bkg_img(self):
+    BkgImg = QtWidgets.QLabel('')
+    BkgImg.setGeometry(QtCore.QRect(0, 0, 1024, 600))
+    BkgImg.setObjectName("BkgImg")
+    BkgImg.setText(graphic_text('graphics/nav/nav_bkg.png'))
+    return BkgImg
 
   def click(self):
     self.switch_window.emit()
@@ -104,7 +126,7 @@ class HomePage(QtWidgets.QWidget):
     font.setPointSize(86)
     Linkah.setFont(font)
     Linkah.setStyleSheet(
-      "color: rgb(0, 0, 0);"
+      "color: white;"
       "background-color: rgba(255, 255, 255, 0);"
       "border: 0px;"
       "border-color: rgba(255, 255, 255, 0);"
@@ -115,7 +137,7 @@ class HomePage(QtWidgets.QWidget):
   def go_btn(self):
     go_btn = QtWidgets.QPushButton('')
     go_btn.setEnabled(True)
-    go_btn.setGeometry(QtCore.QRect(600, 300, 200, 200))
+    go_btn.setGeometry(QtCore.QRect(800, 450, 200, 200))
     go_btn.setStyleSheet("QPushButton {\n"
     "    background-color: rgba(255, 255, 255, 0);\n"
     "    border: 0px;\n"
@@ -128,6 +150,36 @@ class HomePage(QtWidgets.QWidget):
     go_btn.setObjectName("go_btn")
 
     return go_btn
+
+  def time_box(self):
+    TimeBox = QtWidgets.QLabel('')
+    TimeBox.setGeometry(QtCore.QRect(30, 500, 350, 100))
+    TimeBox.setObjectName("TimeBox")
+    pixmap = QtGui.QPixmap('graphics/timebox.png')
+    pixmap = pixmap.scaled(350,100)
+    TimeBox.setPixmap(pixmap)
+    return TimeBox
+
+  def time(self):
+    Time = QtWidgets.QLabel('')
+   
+    Time.setGeometry(QtCore.QRect(112, 500, 350, 100))
+    font = QtGui.QFont()
+    font.setFamily("Ani")
+    font.setPointSize(32)
+    Time.setFont(font)
+    Time.setStyleSheet(
+      "color: red;"
+      "background-color: rgba(255, 255, 255, 0);"
+      "border: 0px;"
+      "border-color: rgba(255, 255, 255, 0);"
+    )
+    return Time
+
+  def showTime(self):
+    current_time = QtCore.QTime.currentTime() 
+    label_time = current_time.toString('hh:mm:ss') 
+    self.time.setText(label_time) 
 
 class NavPage(QtWidgets.QWidget):
 
@@ -184,13 +236,50 @@ class NavPage(QtWidgets.QWidget):
     self.rep_btn.clicked.connect(self.click_rep)
     self.rep_btn.released.connect(self.release_rep)
 
+    self.time_box = self.time_box()
+    self.time_box.setParent(self)
 
+    self.time = self.time()
+    self.time.setParent(self)
+    timer = QtCore.QTimer(self) 
+    timer.timeout.connect(self.showTime) 
+    timer.setObjectName("Time")
+    timer.start(1000)
 
 
   #                  #
   #  HUD. Functions  #
   #                  #
 
+  def time_box(self):
+    TimeBox = QtWidgets.QLabel('')
+    TimeBox.setGeometry(QtCore.QRect(30, 500, 350, 100))
+    TimeBox.setObjectName("TimeBox")
+    pixmap = QtGui.QPixmap('graphics/timebox.png')
+    pixmap = pixmap.scaled(350,100)
+    TimeBox.setPixmap(pixmap)
+    return TimeBox
+
+  def time(self):
+    Time = QtWidgets.QLabel('')
+   
+    Time.setGeometry(QtCore.QRect(112, 500, 350, 100))
+    font = QtGui.QFont()
+    font.setFamily("Ani")
+    font.setPointSize(32)
+    Time.setFont(font)
+    Time.setStyleSheet(
+      "color: red;"
+      "background-color: rgba(255, 255, 255, 0);"
+      "border: 0px;"
+      "border-color: rgba(255, 255, 255, 0);"
+    )
+    return Time
+
+  def showTime(self):
+    current_time = QtCore.QTime.currentTime() 
+    label_time = current_time.toString('hh:mm:ss') 
+    self.time.setText(label_time) 
 
   def bkg_img(self):
     BkgImg = QtWidgets.QLabel('')
@@ -278,7 +367,7 @@ class NavPage(QtWidgets.QWidget):
   def go_btn(self):
     go_btn = QtWidgets.QPushButton('')
     go_btn.setEnabled(True)
-    go_btn.setGeometry(QtCore.QRect(600, 300, 200, 200))
+    go_btn.setGeometry(QtCore.QRect(800, 450, 200, 200))
     go_btn.setStyleSheet("QPushButton {\n"
     "    background-color: rgba(255, 255, 255, 0);\n"
     "    border: 0px;\n"
@@ -374,10 +463,10 @@ class NavPage(QtWidgets.QWidget):
 
   def click_alpr(self):
     self.runALPR(str(self.car_num))
-    self.hud.setText(graphic_text('graphics/nav/nav_page_read'))
     if (self.plate_reading.text() == ''):
       self.plate_reading.setText('FAILURE')
       self.plate_conf.setText('00%')
+
 
   def press_go(self):
     icon = QtGui.QIcon()
@@ -451,6 +540,11 @@ class Controller:
 
 def graphic_text(path):
   return "<html><head/><body><p><img src=\""+path+"\"/></p></body></html>"
+
+def clock():
+  now = datetime.now()
+  current_time = now.strftime("%H:%M")
+  return current_time
 
 def main():
   app = QtWidgets.QApplication(sys.argv)
