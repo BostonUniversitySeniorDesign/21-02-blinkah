@@ -26,6 +26,8 @@ def alpr(num):
   hyphen = use_val.find('-')
   use_val = use_val[hyphen+2:]
 
+
+
   # Removes hyphen from output
   p_val = use_val.split('- ')
   #print (p_val)
@@ -45,13 +47,24 @@ def alpr(num):
     
     key3 = elem.find('\n')
 
-    plates.append({'license_plate': elem[0:key], 'confidence': float(elem[key2+2:key3])})
+    plate =  elem[0:key]
+    conf = elem[key2+2:key3]
+
+    if (plate == ''):
+      plate = 'NOIMG'
+      conf = '0'
+    if (plate == 'o license plates found.' or conf == ' license plates found.'):
+      plate = ''
+      conf = '0'
+    
+
+
+    plates.append({'license_plate': plate, 'confidence': float(conf)})
 
   #print (plates)
 
   # Store plates (dict) as JSON in Reports.json
-  #with open("Reports.json", "w") as outfile:
-  # json.dump(plates, outfile)
+
   return plates
 
 # ******************2nd part******************

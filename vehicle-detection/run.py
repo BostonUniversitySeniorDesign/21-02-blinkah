@@ -14,5 +14,5 @@ def imShow(path):
     plt.show()
 
 # os.system("./setup.sh")
-os.chdir("/darknet")
+os.chdir("./darknet")
 os.system("./darknet detect cfg/yolov3.cfg yolov3.weights -ext_output data/dog.jpg")
