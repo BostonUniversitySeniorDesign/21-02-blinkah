@@ -16,4 +16,4 @@ class ActiveUnit(models.Model):
     unit_id = models.IntegerField()
     latitude = models.DecimalField(decimal_places=4, max_digits=10)
     longitude = models.DecimalField(decimal_places=4,max_digits=10)
-    last_seen = models.DateTimeField(auto_now_add=True)
+    last_seen = models.DateTimeField(auto_now=True)
