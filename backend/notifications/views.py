@@ -20,7 +20,7 @@ class ActiveUnitList(ListCreateAPIView):
     queryset = ActiveUnit.objects.all()
     serializer_class = ActiveUnitSerializer
 
-class ActiveUnitSerializer(RetrieveUpdateDestroyAPIView):
+class ActiveUnitDetail(RetrieveUpdateDestroyAPIView):
     queryset = ActiveUnit.objects.all()
     serializer_class = ActiveUnitSerializer
 
