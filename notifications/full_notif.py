@@ -6,7 +6,7 @@ import time
 import json
 import requests
 import socket
-import playsound
+#import playsound
 from os.path import join, dirname
 from ibm_watson import TextToSpeechV1
 from ibm_watson.websocket import SynthesizeCallback
