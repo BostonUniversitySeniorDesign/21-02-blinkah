@@ -15,9 +15,10 @@ def main():
 
     #voices = service.list_voices().get_result()
     #print(json.dumps(voices, indent=2))
-    text = 'Introducing Blinkah: Revolutionizing the Road.'
-    sample_msg = 'Warning! Caution! Dangerous driver ahead. license plate: 4. A. L. P. R. 6. Q. W.'
 
+    # alpr_read =
+
+    sample_msg = 'Warning! Caution! Dangerous driver ahead. license plate: 4. A. L. P. R. 6. Q. W. Be advised of swerving.'
     with open(join(dirname(__file__), './output.wav'),
               'wb') as audio_file:
         response = service.synthesize(
