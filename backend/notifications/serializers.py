@@ -12,8 +12,6 @@ class NotificationSerializer(serializers.ModelSerializer):
         fields = [
             'recipient_unit_id',
             'message_text',
-            'latitude',
-            'longitude',
             'license_plate',
             'audio'
         ]

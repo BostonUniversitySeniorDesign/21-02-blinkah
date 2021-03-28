@@ -7,8 +7,6 @@ def audioUploads(instance, filename):
 class Notification(models.Model):
     recipient_unit_id = models.IntegerField()
     message_text = models.CharField(max_length=255)
-    latitude = models.DecimalField(decimal_places=4,max_digits=10)
-    longitude = models.DecimalField(decimal_places=4,max_digits=10)
     license_plate = models.CharField(max_length=16)
     audio = models.FileField(upload_to=audioUploads, max_length=255, blank=True, null=True)
 
