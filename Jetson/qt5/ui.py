@@ -3,6 +3,8 @@ from PyQt5 import QtCore, QtWidgets, QtGui
 from alpr import alpr
 from datetime import datetime
 
+
+
 class MainWindow(QtWidgets.QWidget):
 
   switch_window = QtCore.pyqtSignal(str)
@@ -41,6 +43,7 @@ class HomePage(QtWidgets.QWidget):
     # Enable borderless windowed
     flags = QtCore.Qt.WindowFlags(QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint)
     self.setWindowFlags(flags)
+    #self.setWindowState(QtCore.Qt.WindowMaximized)
 
     self.bkg_img = self.bkg_img()
     self.bkg_img.setParent(self)
