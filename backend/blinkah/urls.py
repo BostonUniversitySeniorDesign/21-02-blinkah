@@ -31,6 +31,11 @@ urlpatterns = [
     path('statistics/<int:pk>/', rviews.StatisticsDetail.as_view()),
 
     path('notifications/', nviews.NotificationList.as_view()),
-    path('notifications/<int:pk>', nviews.NotificationDetail.as_view()),
+    path('notifications/<int:pk>/', nviews.NotificationDetail.as_view()),
+    path('notifications/unit_id/<int:unit_id>/', nviews.NotificationFilterUnitID.as_view()),
+
+    path('activeunits/', nviews.ActiveUnitList.as_view()),
+    path('activeunits/<int:pk>/', nviews.ActiveUnitDetail.as_view()),
+    path('activeunits/unit_id/<int:unit_id>/', nviews.ActiveUnitFilterUnitID.as_view()),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
