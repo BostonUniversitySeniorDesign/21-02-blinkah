@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="google-signin-client_id" content="716170563651-fl8n1ccfdc4gi2o7qkpuacba20rv5isk.apps.googleusercontent.com">
+    <title>BLINKAH Login</title>
+
+    <!-- update the version number as needed -->
+    <script defer src="/__/firebase/7.19.1/firebase-app.js"></script>
+    <!-- include only the Firebase features as you need -->
+    <script defer src="/__/firebase/7.19.1/firebase-auth.js"></script>
+    <script defer src="/__/firebase/7.19.1/firebase-database.js"></script>
+    <script defer src="/__/firebase/7.19.1/firebase-messaging.js"></script>
+    <script defer src="/__/firebase/7.19.1/firebase-storage.js"></script>
+    <!-- initialize the SDK after all desired features are loaded -->
+    <script defer src="/__/firebase/init.js"></script>
+
+    <style media="screen">
+      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
+      #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
+      #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
+      #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
+      #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
+      #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
+      #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
+      #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
+      @media (max-width: 600px) {
+        body, #message { margin-top: 0; background: white; box-shadow: none; }
+        body { border-top: 16px solid #ffa100; }
+      }
+    </style>
+  </head>
+  <body>
+    <input type=text id=uname name=uname> </input>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <div id="message">
+      <h1><b>BCF Secure Login</b></h1>
+      <p>BLINKAH...</p>
+      <!----<a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a> -->
+      <!-- <div id="my-signin2" onclick="googleLogin()" ></div> -->
+      <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark" data-width="358" data-height="50" data-longtitle="true"></div>
+      <!-- <div><fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button> </div> -->
+      <br>
+      <!--<div class="fb-login-button" data-size="large" data-button-type="login_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false" data-width="240" data-height="50"></div>-->
+      <div><a href="#" onclick="signOut();">Sign out</a></div>
+    </div>
+  <script>
+    
+    function onSignIn(googleUser) {
+      var profile = googleUser.getBasicProfile();
+      //var provider = new firebase.auth.GoogleAuthProvider();
+      document.getElementById('uname').value=profile.getEmail();
+      //document.getElementById('uname').value=provider.getEmail();
+      //await sleep(1000);
+      window.location.href = "adminDash.html";
+    }
+
+    //Handle Account Status
+    firebase.auth().onAuthStateChanged(user => {
+      if(user) {
+        window.location = 'adminDash.html'; //After successful login, user will be redirected to adminDash.html
+      }
+    });
+
+    function signOut() {
+      var auth2 = gapi.auth2.getAuthInstance();
+      auth2.signOut().then(function () {
+      document.getElementById('uname').value="user signed out";
+    });
+  }
+
+    function checkLoginState() {
+       const provider = new firebase.auth.FacebookAuthProvider();
+        firebase.auth().signInWithPopup(provider)
+          .then(result => {
+            const user = result.user;
+            document.getElementById('uname').value=result.user;
+          })
+    }
+    
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '351653192675512',
+        cookie     : true,
+        xfbml      : true,
+        version    : 'v8.0'
+      });
+        
+      FB.AppEvents.logPageView();   
+        
+    };
+  
+    (function(d, s, id){
+       var js, fjs = d.getElementsByTagName(s)[0];
+       if (d.getElementById(id)) {return;}
+       js = d.createElement(s); js.id = id;
+       js.src = "https://connect.facebook.net/en_US/sdk.js";
+       fjs.parentNode.insertBefore(js, fjs);
+     }(document, 'script', 'facebook-jssdk'));
+
+  </script>
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-analytics.js"></script>
+
+<script>
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  var firebaseConfig = {
+    apiKey: "AIzaSyBwvJkAx-F1-X5I_X1E7LE54Vgo0JDh1ow",
+    authDomain: "tempcovid-48205.firebaseapp.com",
+    databaseURL: "https://tempcovid-48205.firebaseio.com",
+    projectId: "tempcovid-48205",
+    storageBucket: "tempcovid-48205.appspot.com",
+    messagingSenderId: "113273181396",
+    appId: "1:113273181396:web:e6211ad62810994dd25741",
+    measurementId: "G-MTHV7RVDCF"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+</script>
+  </body>
+</html>
