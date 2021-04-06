@@ -12,9 +12,28 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
   <!-- Material Kit CSS -->
   <link href="assets/css/material-dashboard.css?v=2.1.0" rel="stylesheet" />
+
+  <!------------------------------HEATMAP-------------------------------------------->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"
+  integrity="sha512-07I2e+7D8p6he1SIM+1twR5TIrhUQn9+I6yjqD53JQjFiMf8EtC93ty0/5vJTZGF8aAocvHYNEDJajGdNx1IsQ=="
+  crossorigin=""/>
+ <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"
+  integrity="sha512-A7vV8IFfih/D732iSSKi20u/ooOfj/AGehOKq0f4vLT1Zr2Y+RX7C+w8A1gaSasGtRUZpF/NZgzSAu4/Gc41Lg=="
+  crossorigin=""></script>
+ <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+ <script src="leaflet.heat.js"></script>
+ <style>
+   #map{ height: 100% }
+ </style>
+
+
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 </head>
 
-<body class="dark-edition">
+<body class="dark-edition" onload="CreateTableFromJSON()">
   <div class="wrapper ">
     <div class="sidebar" data-color="purple" data-background-color="black" ><!--data-image="./assets/img/sidebar-2.jpg">-->
       <!--
@@ -35,20 +54,20 @@
               <p>Dashboard</p>
             </a>
           </li>
-          <!-- your sidebar here 
+          <!-- your sidebar here -->
           <li class="nav-item active  ">
-            <a class="nav-link" href="questionnaire.html">
-            <i class="material-icons">assignment</i>
-              <p>COVID Questionnaire</p>
-          </a>-->
+            <a class="nav-link" href="heatmap.html">
+            <i class="material-icons">map</i>
+              <p>Incident Heatmap</p>
+          </a>
           <li class="nav-item active  ">
-              <a class="nav-link" href="javascript:void(0)">
+              <a class="nav-link" href="meet_the_team.html">
               <i class="material-icons">perm_identity</i>
                 <p>Meet the Team</p>
             </a>
             <li class="nav-item active  ">
-                <a class="nav-link" href="javascript:void(0)">
-                <i class="material-icons"></i>
+                <a class="nav-link" href="index.html">
+                <i class="material-icons">logout</i>
                   <p>Sign Out</p>
               </a>
         </li>
@@ -184,57 +203,107 @@
                     <h4 class="card-title">License Plate Lookup:</h4>
                     <p class="card-category"> </p>
                     
+                    <script>
+                    const https = require('https')
+                    const options = {
+                    hostname: '161.35.50.175',
+                    port: 8000,
+                    path: '/reports/',
+                    method: 'GET'
+                    }
+
+                    const req = https.request(options, res => {
+                    console.log(`statusCode: ${res.statusCode}`)
+
+                    res.on('data', d => {
+                      process.stdout.write(d)
+                      })
+                    })
+
+                    req.on('error', error => {
+                      console.error(error)
+                    })
+
+                    req.end()
+                    </script>
                     <h5><form id="form" role="search">
                       <input type="search" id="query" name="q"
                        placeholder="Search..."
                        aria-label="Search through site content">
                       <button>Search</button>
+
                     </form></h5>
                   </div>
-                  <div class="card-body table-responsive">
-                    <table class="table table-hover">
-                      <thead class="text-warning">
-                        <th>Report ID</th>
-                        <th>City</th>
-                        <th>Action</th>
-                        <th>Report Entity</th>
-                        <th>Date</th>
+                  <div class="card-body table-responsive" id= "data_table"> 
+                    <!--<table class="table table-hover">
+                      <thead class="text-warning">-->
+                          
+                       <!-- <th>ID</th>
+                        <th>Plate</th>
+                        <th>Infraction</th>
+                        <th>Lat</th>
+                        <th>Long</th>
+                        <th>Confidence</th>
+                        <th>Speed</th>
+                        <th>Timestamp</th>
+                        <th>Unit ID</th>
+                        <th>Photograph</th>
                       </thead>
                       <tbody>
                         <tr>
-                          <td>1234</td>
-                          <td>Boston</td>
-                          <td>Speeding</td>
-                          <td>Allstate</td>
-                          <td>03/08/2021</td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
                         </tr>
                         <tr>
-                          <td>1235</td>
-                          <td>Brookline</td>
-                          <td>Swerving</td>
-                          <td>GEICO</td>
-                          <td>02/13/2021</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                         </tr>
                         <tr>
-                          <td>1236</td>
-                          <td>Allston</td>
-                          <td>Ran Stop Sign</td>
-                          <td>State Farm</td>
-                          <td>01/23/2021</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                         </tr>
                         <tr>
-                          <td>1237</td>
-                          <td>Newton</td>
-                          <td>Outdated Registration</td>
-                          <td>MA DMV</td>
-                          <td>12/25/2020</td>
-                        </tr>
-                      </tbody>
-                    </table>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>-->
+                      <!--</tbody>
+                    </table>-->
                   </div>
                 </div>
               </div>
-              <div class="col-lg-6 col-md-12">   <!-- FIXXXXXXXX THISSSSSSS MAP/Iframe -->
+              <!--<div class="col-lg-6 col-md-12">   
                 <div class="card">
                   <div class="card-header card-header-tabs card-header-warning">
                     <div class="nav-tabs-navigation">
@@ -349,7 +418,7 @@
                             </tr>
                           </tbody>
                         </table>
-                      </div>
+                      </div>-->
                       
                               </td>
                             </tr>
@@ -406,6 +475,7 @@
   <script src="./assets/js/material-dashboard.js?v=2.1.0"></script>
   <!-- Material Dashboard DEMO methods, don't include it in your project! -->
   <script src="./assets/demo/demo.js"></script>
+
   <script>
     $(document).ready(function() {
       $().ready(function() {
@@ -564,9 +634,76 @@
             clearInterval(simulateWindowResize);
           }, 1000);
 
+          
         });
       });
     });
+
+
+  </script>
+  <script>
+      function CreateTableFromJSON() {
+          var myBooks = [
+              {
+                  "Book ID": "1",
+                  "Book Name": "Computer Architecture",
+                  "Category": "Computers",
+                  "Price": "125.60"
+              },
+              {
+                  "Book ID": "2",
+                  "Book Name": "Asp.Net 4 Blue Book",
+                  "Category": "Programming",
+                  "Price": "56.00"
+              },
+              {
+                  "Book ID": "3",
+                  "Book Name": "Popular Science",
+                  "Category": "Science",
+                  "Price": "210.40"
+              }
+          ]
+  
+          // EXTRACT VALUE FOR HTML HEADER. 
+          // ('Book ID', 'Book Name', 'Category' and 'Price')
+          var col = [];
+          for (var i = 0; i < myBooks.length; i++) {
+              for (var key in myBooks[i]) {
+                  if (col.indexOf(key) === -1) {
+                      col.push(key);
+                  }
+              }
+          }
+  
+          // CREATE DYNAMIC TABLE.
+          var table = document.createElement("table");
+  
+          // CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE.
+  
+          var tr = table.insertRow(-1);                   // TABLE ROW.
+  
+          for (var i = 0; i < col.length; i++) {
+              var th = document.createElement("th");      // TABLE HEADER.
+              th.innerHTML = col[i];
+              tr.appendChild(th);
+          }
+  
+          // ADD JSON DATA TO THE TABLE AS ROWS.
+          for (var i = 0; i < myBooks.length; i++) {
+  
+              tr = table.insertRow(-1);
+  
+              for (var j = 0; j < col.length; j++) {
+                  var tabCell = tr.insertCell(-1);
+                  tabCell.innerHTML = myBooks[i][col[j]];
+              }
+          }
+  
+          // FINALLY ADD THE NEWLY CREATED TABLE WITH JSON DATA TO A CONTAINER.
+          var divContainer = document.getElementById("data_table");
+          divContainer.innerHTML = "";
+          divContainer.appendChild(table);
+      }
   </script>
 </body>
 
