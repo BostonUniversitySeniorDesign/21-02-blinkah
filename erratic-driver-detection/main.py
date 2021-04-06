@@ -1,8 +1,10 @@
 # CONSTANTS
+# ---------
 FRAMES_TO_COOLDOWN = 120
 LANE_SWITCH_THRESHOLD = 2
 
-# Normal variables
+# Normal (global) variables
+# -------------------------
 lane_switch_counter = 0
 frame_counter = 0
 # 99 is an arbitrary integer used to indicate there is no active car currently detected
@@ -46,6 +48,7 @@ def erraticDriverFrameUpdate(lane_bounds, car_bounds):
 
 
 def detectRelativeLane(lane_bounds, car_bounds):
+    # grab car bounds and put them in distinct variables for sanity
     car_top_y = car[0][1]
     car_bottom_y = car[2][1]
     car_left_x = car[0][0]
@@ -57,19 +60,45 @@ def detectRelativeLane(lane_bounds, car_bounds):
     car_x = ((car_right_x - car_left_x) // 2) + car_left_x
 
     # LEFT LANE BORDER CALCULATIONS
-    left_slope = 
+    # -----------------------------
+    # get slope of left hand border using rise/run
+    left_slope = (lane_bounds[2][1] - lane_bounds[0][1]) / (lane_bounds[2][0] - lane_bounds[0][0])
+    # using point-slope, plug in `car_y` as y, and solve for x.
+    # This uses the top left point, lane_bounds[0], as the point for point-slope
+    left_x_bound = ((car_y - lane_bounds[0][1]) + (left_slope * lane_bounds[0][0])) / left_slope
 
     # RIGHT LANE BORDER CALCULATIONS
+    # ------------------------------
+    # get slope of right hand border using rise/run
+    right_slope = (lane_bounds[3][1] - lane_bounds[1][1]) / (lane_bounds[3][0] - lane_bounds[1][0])
+    # using point-slope, plug in `car_y` as y, and solve for x.
+    # This uses the top right point, lane_bounds[1], as the point for point-slope
+    right_x_bound = ((car_y - lane_bounds[1][1]) + (right_slope * lane_bounds[1][0])) / right_slope
 
+    # FINAL CALCULATIONS
+    # ------------------------------
+    # Given the integers `left_x_bound` and `right_x_bound` which dictate the lane borders at the current y-value,
+    # we will check where `car_x` is in relation to them, on a one-dimensional axis
+
+    if car_x < left_x_bound:
+        # car is to the left of the lane
+        return -1
+    elif car_x > right_x_bound:
+        # car is to the right of the lane
+        return 1
+    else:
+        # car is inside the lane
+        return 0
 
 def main():
+    # TODO!
     # on every frame, call erraticDriverFrameUpdate(lane_bounds, car_bounds)
     # where lane_bounds is a tuple of 4 (x,y) coordinate points drawing a trapezoid of the lane in front of own car
     # and car_bounds is a tuple of 4 (x,y) coordinate points drawing a rectangle of the other car. Can be 'None' if no other car detected
 
     # IMPORTANT: the 4 coordinate pairs should be in the following order: top left, top right, bottom left, bottom right
     # and each coordinate point is a tuple of 2 integers: (x, y)
-
+    
     pass
 
 if __name__ == "__main__":
