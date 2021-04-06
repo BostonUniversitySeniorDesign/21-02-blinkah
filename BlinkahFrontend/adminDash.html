@@ -22,8 +22,56 @@
   crossorigin=""></script>
  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
  <script src="leaflet.heat.js"></script>
+
  <style>
    #map{ height: 100% }
+   th, td, input, p, h4, i {
+        font:14px Verdana;
+        color:#FFFFFF;
+    }
+    table
+    {
+      border-collapse: collapse;
+      margin: 25px 0;
+      font-size: 0.9em;
+      font-family: sans-serif;
+      min-width: 30px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+      min-height: 50px;
+    }
+    th
+    {
+      background-color: #708090;
+      color: #FFFFFF;
+      text-align: left;
+      min-width: 100px;
+      min-height: 50px;
+    }
+    td 
+    {
+      padding: 12px 15px;
+      min-height: 50px;
+    }
+    tr 
+    {
+      border-bottom: 1px solid #dddddd;
+      min-height: 50px;
+    }
+
+
+    tr:nth-of-type(odd) {
+      background-color: #708090;
+    }
+
+    tr:last-of-type {
+      border-bottom: 2px solid #009879;
+    }
+
+    tr.active-row {
+      font-weight: bold;
+      color: #009879;
+    }
+   
  </style>
 
 
@@ -33,7 +81,7 @@
 
 </head>
 
-<body class="dark-edition" onload="CreateTableFromJSON()">
+<body class="dark-edition">
   <div class="wrapper ">
     <div class="sidebar" data-color="purple" data-background-color="black" ><!--data-image="./assets/img/sidebar-2.jpg">-->
       <!--
@@ -196,230 +244,45 @@
                     </div>
                   </div>
                 </div>-->
+                <!-- ASHDFJKLSADADADADADADADADSADSADSADSADSADSADSADSADSADSADSADSADSADSADSADSADSADSADSADSADSADSADSADSADSADSADSADSADSADSADSAD-->
             <div class="row">
               <div class="col-lg-6 col-md-12">
-                <div class="card">
-                  <div class="card-header card-header-primary">
+                <div class="card" style="width:350px">
+                  <div class="card-header card-header-primary" style="width:300px">
                     <h4 class="card-title">License Plate Lookup:</h4>
                     <p class="card-category"> </p>
-                    
-                    <script>
-                    const https = require('https')
-                    const options = {
-                    hostname: '161.35.50.175',
-                    port: 8000,
-                    path: '/reports/',
-                    method: 'GET'
-                    }
-
-                    const req = https.request(options, res => {
-                    console.log(`statusCode: ${res.statusCode}`)
-
-                    res.on('data', d => {
-                      process.stdout.write(d)
-                      })
-                    })
-
-                    req.on('error', error => {
-                      console.error(error)
-                    })
-
-                    req.end()
-                    </script>
-                    <h5><form id="form" role="search">
-                      <input type="search" id="query" name="q"
-                       placeholder="Search..."
-                       aria-label="Search through site content">
-                      <button>Search</button>
+                    <form>
+                    <input type="text" size = 10 class="form-control" id="license" aria-describedby="emailHelp" placeholder="Enter license plate">
+                    <br />
+                    <button type="button" class="btn btn-primary" onclick="onSubmit()">Submit</button>
+                    </form>
 
                     </form></h5>
                   </div>
-                  <div class="card-body table-responsive" id= "data_table"> 
-                    <!--<table class="table table-hover">
-                      <thead class="text-warning">-->
-                          
-                       <!-- <th>ID</th>
-                        <th>Plate</th>
-                        <th>Infraction</th>
-                        <th>Lat</th>
-                        <th>Long</th>
-                        <th>Confidence</th>
-                        <th>Speed</th>
-                        <th>Timestamp</th>
-                        <th>Unit ID</th>
-                        <th>Photograph</th>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>-->
-                      <!--</tbody>
-                    </table>-->
+                  <script>
+                    function onSubmit() {
+                      var temp = document.getElementById("license").value
+                      console.log(temp)
+                      var url = "http://161.35.50.175:8000/reports/license_plate/"
+                      url = url.concat(temp)
+                      url = url.concat("/")
+                      console.log(url)
+                      var xmlhttp = new XMLHttpRequest();
+                      xmlhttp.onreadystatechange = function() {
+                          if (this.readyState == 4 && this.status == 200) {
+                              var myArr = JSON.parse(this.responseText);
+                              console.log(myArr);
+                              CreateTableFromJSON(myArr)
+                          }
+};
+xmlhttp.open("GET", url, true);
+xmlhttp.send();
+                    }
+                  </script> 
                   </div>
                 </div>
+                <div class="card-body table-responsive" id= "data_table"></div>
               </div>
-              <!--<div class="col-lg-6 col-md-12">   
-                <div class="card">
-                  <div class="card-header card-header-tabs card-header-warning">
-                    <div class="nav-tabs-navigation">
-                      <div class="nav-tabs-wrapper">
-                        <span class="nav-tabs-title"></span>
-                        <ul class="nav nav-tabs" data-tabs="tabs">
-                          <li class="nav-item">
-                            <a class="nav-link active" href="#profile" data-toggle="tab">
-                              <i class="material-icons">info</i> Safe Driving Habits
-                              <div class="ripple-container"></div>
-                            </a>
-                          </li>
-                          <li class="nav-item">
-                            
-                          </li>
-                          <li class="nav-item">
-                            
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="card-body">
-                    <div class="tab-content">
-                      <div class="tab-pane active" id="profile">
-                        <table class="table">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <div class="form-check">
-                                  <label class="form-check-label">
-                                    <input class="form-check-input" type="checkbox" value="" checked>
-                                    <span class="form-check-sign">
-                                      <span class="check"></span>
-                                    </span>
-                                  </label>
-                                </div>
-                              </td>
-                              <td>Wear seatbelts!</td>
-                              <td class="td-actions text-right">
-                                <button type="button" rel="tooltip" title="Edit Task" class="btn btn-white btn-link btn-sm">
-                                  <i class="material-icons"></i>
-                                </button>
-                                <button type="button" rel="tooltip" title="Remove" class="btn btn-white btn-link btn-sm">
-                                  <i class="material-icons"></i>
-                                </button>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <div class="form-check">
-                                  <label class="form-check-label">
-                                    <input class="form-check-input" type="checkbox" value="">
-                                    <span class="form-check-sign">
-                                      <span class="check"></span>
-                                    </span>
-                                  </label>
-                                </div>
-                              </td>
-                              <td>Use yah BLINKAH!</td>
-                              <td class="td-actions text-right">
-                                <button type="button" rel="tooltip" title="Edit Task" class="btn btn-white btn-link btn-sm">
-                                  <i class="material-icons"></i>
-                                </button>
-                                <button type="button" rel="tooltip" title="Remove" class="btn btn-white btn-link btn-sm">
-                                  <i class="material-icons"></i>
-                                </button>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <div class="form-check">
-                                  <label class="form-check-label">
-                                    <input class="form-check-input" type="checkbox" value="">
-                                    <span class="form-check-sign">
-                                      <span class="check"></span>
-                                    </span>
-                                  </label>
-                                </div>
-                              </td>
-                              <td>Check mirrors
-                              </td>
-                              <td class="td-actions text-right">
-                                <button type="button" rel="tooltip" title="Edit Task" class="btn btn-white btn-link btn-sm">
-                                  <i class="material-icons"></i>
-                                </button>
-                                <button type="button" rel="tooltip" title="Remove" class="btn btn-white btn-link btn-sm">
-                                  <i class="material-icons"></i>
-                                </button>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <div class="form-check">
-                                  <label class="form-check-label">
-                                    <input class="form-check-input" type="checkbox" value="" checked>
-                                    <span class="form-check-sign">
-                                      <span class="check"></span>
-                                    </span>
-                                  </label>
-                                </div>
-                              </td>
-                              <td>Keep Safe Distance</td>
-                              <td class="td-actions text-right">
-                                <button type="button" rel="tooltip" title="Edit Task" class="btn btn-white btn-link btn-sm">
-                                  <i class="material-icons"></i>
-                                </button>
-                                <button type="button" rel="tooltip" title="Remove" class="btn btn-white btn-link btn-sm">
-                                  <i class="material-icons"></i>
-                                </button>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>-->
-                      
                               </td>
                             </tr>
                           </tbody>
@@ -438,19 +301,10 @@
         <div class="container-fluid">
           <nav class="float-left">
             <ul>
-              <li>
-                <a href="https://www.creative-tim.com">
-                  Creative Tim
-                </a>
-              </li>
             </ul>
           </nav>
           <div class="copyright float-right">
-            &copy;
-            <script>
-              document.write(new Date().getFullYear())
-            </script>, made with <i class="material-icons">favorite</i> by
-            <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a> for a better web.
+             BLINKAH 2021
           </div>
           <!-- your footer here -->
         </div>
@@ -642,27 +496,7 @@
 
   </script>
   <script>
-      function CreateTableFromJSON() {
-          var myBooks = [
-              {
-                  "Book ID": "1",
-                  "Book Name": "Computer Architecture",
-                  "Category": "Computers",
-                  "Price": "125.60"
-              },
-              {
-                  "Book ID": "2",
-                  "Book Name": "Asp.Net 4 Blue Book",
-                  "Category": "Programming",
-                  "Price": "56.00"
-              },
-              {
-                  "Book ID": "3",
-                  "Book Name": "Popular Science",
-                  "Category": "Science",
-                  "Price": "210.40"
-              }
-          ]
+      function CreateTableFromJSON(myBooks) {
   
           // EXTRACT VALUE FOR HTML HEADER. 
           // ('Book ID', 'Book Name', 'Category' and 'Price')
@@ -683,7 +517,7 @@
           var tr = table.insertRow(-1);                   // TABLE ROW.
   
           for (var i = 0; i < col.length; i++) {
-              var th = document.createElement("th");      // TABLE HEADER.
+              var th = document.createElement("th"); // TABLE HEADER.
               th.innerHTML = col[i];
               tr.appendChild(th);
           }
