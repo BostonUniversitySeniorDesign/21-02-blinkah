@@ -3,7 +3,7 @@
 body {
   font-family: "Source Sans Pro", sans-serif;
   line-height: 1.5;
-  color: #323232;
+  color: #FFFFF;
   font-size: 15px;
   font-weight: 400;
   text-rendering: optimizeLegibility;
@@ -29,7 +29,7 @@ body {
   margin: 0 auto;
   display: inline-block;
   line-height: 25px;
-  color: #7e7e7e;
+  color: #FFFFFF;
 }
 .text-uppercase {
   text-transform: uppercase;
@@ -133,6 +133,6 @@ body {
 .team-title span {
   font-size: 12px;
   text-transform: uppercase;
-  color: #a5a5a5;
+  color: #FFFFFF;
   letter-spacing: 1px;
 }
