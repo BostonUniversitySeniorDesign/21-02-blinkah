@@ -17,8 +17,8 @@
     <script defer src="/__/firebase/init.js"></script>
 
     <style media="screen">
-      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
-      #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
+      body { background: rgb(119, 17, 119); color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
+      #message { background: rgb(180, 41, 180); max-width: 500px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
       #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
       #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
       #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
@@ -26,7 +26,7 @@
       #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
       #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
       @media (max-width: 600px) {
-        body, #message { margin-top: 0; background: white; box-shadow: none; }
+        body, #message { margin-top: 0; background: purple; box-shadow: none; }
         body { border-top: 16px solid #ffa100; }
       }
     </style>
@@ -35,24 +35,25 @@
     <input type=text id=uname name=uname> </input>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <div id="message">
-      <h1><b>BCF Secure Login</b></h1>
-      <p>BLINKAH...</p>
+        <center><h1 style="font-size:36px"><b>BLINKAH Computational Frontend</b></h1>
+      <br>
+      <img src="bcf.png" width="300" height="300">
+      <br>
+      <br>
+      <br>
       <!----<a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a> -->
       <!-- <div id="my-signin2" onclick="googleLogin()" ></div> -->
       <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark" data-width="358" data-height="50" data-longtitle="true"></div>
-      <!-- <div><fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button> </div> -->
       <br>
+      <!-- <div><fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button> </div> -->
       <!--<div class="fb-login-button" data-size="large" data-button-type="login_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false" data-width="240" data-height="50"></div>-->
-      <div><a href="#" onclick="signOut();">Sign out</a></div>
+      <!--<div><a href="#" onclick="signOut();" >Sign out</a></div></center>-->
     </div>
   <script>
     
     function onSignIn(googleUser) {
       var profile = googleUser.getBasicProfile();
-      //var provider = new firebase.auth.GoogleAuthProvider();
       document.getElementById('uname').value=profile.getEmail();
-      //document.getElementById('uname').value=provider.getEmail();
-      //await sleep(1000);
       window.location.href = "adminDash.html";
     }
 
