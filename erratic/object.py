@@ -1,15 +1,40 @@
 import jetson.inference
 import jetson.utils
-#from jetcam.csi_camera import CSICamera
+from PIL import Image
+
 
 import sys
 import time
 import json
 
 
+import alpr
+import bounding_box as bb
+import swerve
+import reporter
 
+def handle_erratic(opt_input_uri, opt_crop_uri, cnt, detected_car):
+  img_path = opt_input_uri.replace("*", str(cnt))
+  crop_path = opt_crop_uri.replace("*", str(cnt))
+  crop_img(img_path, crop_path, detected_car)
+  plate, conf = run_alpr(crop_path)
+  swerve.reset()
+  reporter.report(img_path, 69, plate, conf)
+  
 
-def run_detect(opt_input_uri, opt_output_uri):
+def run_alpr(path):
+  plates = alpr.alpr(path)
+  plate = plates[0].get('license_plate')
+  conf = plates[0].get('confidence')
+
+  return plate, conf
+
+def crop_img(path, crop_path, detected_car):
+  im = Image.open(path)
+  im_crop = im.crop((detected_car['left'], detected_car['top'], detected_car['right'], detected_car['bottom']))
+  im_crop.save(crop_path)
+
+def run_detect(opt_input_uri, opt_output_uri, opt_crop_uri):
     
   opt_network = "ssd-mobilenet-v2"
   opt_overlay = "box,labels,conf"
@@ -40,8 +65,8 @@ def run_detect(opt_input_uri, opt_output_uri):
 
     img_break = "\nImage " + str(cnt) + "\n"
     f.write(img_break)
-    if len(detections) == 0:
-      f.write("No Vehicle Detected\n")
+    #if len(detections) == 0:
+      #f.write("No Vehicle Detected\n")
     
 
     detected_cars = []
@@ -65,16 +90,7 @@ def run_detect(opt_input_uri, opt_output_uri):
         #f.write(object_break)
         detection_car_cnt+=1
     
-    f.write(str(get_car_pos(detected_cars[0])))
-
-
-    # for i in range(len(detections)):
-    #   # filter for cars only
-    #   if detections[i].ClassID == 3:
-    #     object_break = "Car " + str(i) +" | conf:" + str(detections[i].Confidence) + " | area: " + str(detections[i].Area) + " | center: " + str(detections[i].Center) + "\n"
-    #     f.write(object_break)
-    #     #f.write("\tClassID: " + str(detections[i].ClassID) + "\n")
-
+    #f.write(str(get_car_pos(detected_cars[0])))
 
     # render the image
     output_uri.Render(img)
@@ -84,66 +100,35 @@ def run_detect(opt_input_uri, opt_output_uri):
 
     # print out performance info
     #net.PrintProfilerTimes()
-    
+    if len(detected_cars):
+      swerve.erraticDriverFrameUpdate(bb.get_bounding_box(), detected_cars[0])
+      f.write(str(swerve.last_lane))
+      f.write(str(swerve.erraticDriverDetected))
+      if swerve.erraticDriverDetected:
+        handle_erratic(opt_input_uri, opt_crop_uri, cnt, detected_cars[0])
+
+
+
+
     cnt +=1
 
     # exit on input/output EOS
     if not input_uri.IsStreaming() or not output_uri.IsStreaming():
       break
 
-
   f.close()
+
+
+  
+
+
 
 def get_car_pos(detected_car):
   return ((detected_car['left'] + detected_car['right'])/ 2,detected_car['bottom'])
-  
 
 
 
 
-# def read_camera(camera, cnt):
-#   img = camera.read()
-#   jpg = bgr8_to_jpeg(img)
-#   f = open("images/cap" + str(cnt) + ".jpg", "wb")
-#   f.write(jpg)
-#   f.close()
 
 
 
-
-def main():
-
-  opt_input_uri = "/home/blinkah/Documents/21-02-blinkah/erratic/swerving_car/car_frame_*.jpg"
-  opt_output_uri = "/home/blinkah/Documents/21-02-blinkah/erratic/analyzed/car_analy_%i.jpg" 
-  run_detect(opt_input_uri, opt_output_uri)
-
-  #f = open("analysis.txt", "w")
-
-  #f.write(str(get_car_pos)
-
-  #f.close()
-
-  # camera = CSICamera(width=1920, height=1080, capture_device=0)
-  
-  # Warm up the camera (Takes >12 images to warm up)
-  # for i in range(30):
-  #  camera.read() 
-  #  time.sleep(1/30)
-
-  # Take Pictures (Max 100)
-  # cnt = 0
-  # while True:
-  #   time.sleep(1)
-  #   read_camera(camera,cnt)
-  #   detect_obj("images/cap" + str(cnt) + ".jpg", "images/det" + str(cnt) + ".jpg")
-  #   cnt += 1
-  #   if cnt > 10:
-  #     cnt = 0
-
-  #detect_obj("sample_data/car11")
-  #camera = jetson.utils.videoSource("/dev/video0")
-
-
-
-if __name__ == "__main__":
-  main()
