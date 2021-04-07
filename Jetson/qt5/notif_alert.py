@@ -1,6 +1,9 @@
 # Get request from server to get text and then play notification on arrow button
 
 import requests
+import subprocess
+import time
+import urllib.request
 import json
 #import pyaudio
 
@@ -17,11 +20,21 @@ def notif_alert():
 
     p_text = r.text
     p_tfin = json.loads(p_text)
-    lp_msg1 = (p_tfin[0]['message_text'])
-    lp_lp1 = (p_tfin[0]['license_plate'])
+    lp_msg3 = (p_tfin[2]['message_text'])
+    lp_lp3 = (p_tfin[2]['license_plate'])
+    lp_audio3 = (p_tfin[2]['audio'])
 
-    full_msg = (lp_msg1 + "! license plate is: " + lp_lp1)
+    full_msg = (lp_msg3 + "!\nLicense plate is: " + lp_lp3)
     print(full_msg)
+
+    # urllib.request.urlretrieve(lp_audio3, 'notif.mp3')
+    # #r2 = requests.get(lp_audio3, allow_redirects=True)
+
+    # #open('notif.mp3', 'wb').write(r2.content)
+    # a = subprocess.Popen(['cvlc', notif.mp3])
+    # time.sleep(3)
+    # a.kill()
+    # # p.play()
     return full_msg
 
     # audio_link = "Audio"
@@ -30,4 +43,4 @@ def notif_alert():
 
 
 # if __name__ == "__main__":
-#     main()
+#     out = notif_alert()

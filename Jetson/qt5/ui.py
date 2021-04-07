@@ -1,7 +1,9 @@
 import sys
 import time
 from PyQt5 import QtCore, QtWidgets, QtGui
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QAction, QLineEdit, QMessageBox, QMainWindow
+# QApplication, QWidget, QPushButton, QAction, QLineEdit, QMessageBox, QMainWindow
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
 from alpr import alpr
 from notif_alert import notif_alert
 from datetime import datetime
@@ -246,6 +248,9 @@ class NavPage(QtWidgets.QWidget):
         self.time_box = self.time_box()
         self.time_box.setParent(self)
 
+        self.rep_text = self.rep_text()
+        self.rep_text.setParent(self)
+
         self.time = self.time()
         self.time.setParent(self)
         timer = QtCore.QTimer(self)
@@ -405,6 +410,27 @@ class NavPage(QtWidgets.QWidget):
 
         return rep_btn
 
+    def rep_text(self):
+        rep_text = QtWidgets.QLabel('')
+        # rep_text.setEnabled(True)
+        n_text = self.notifs()
+        rep_text.setFont(QFont('Arial', 14))
+        # rep_text.setBold(True)
+        rep_text.setText(n_text)
+        rep_text.setGeometry(QtCore.QRect(400, 0, 500, 100))
+        # rep_text.setStyleSheet("QPushButton {\n"
+        #                     "    background-color: rgba(255, 255, 255, 0);\n"
+        #                      "    border: 0px;\n"
+        #                      "}")
+        #icon = QtGui.QIcon()
+        # icon.addPixmap(QtGui.QPixmap("./graphics/logo_256x256.png"),
+        #               QtGui.QIcon.Normal, QtGui.QIcon.On)
+        # rep_btn.setIcon(icon)
+        #ep_btn.setIconSize(QtCore.QSize(256, 256))
+        rep_text.setObjectName("rep_text")
+
+        return rep_text
+
     #                  #
     # Helper Functions #
     #                  #
@@ -495,11 +521,11 @@ class NavPage(QtWidgets.QWidget):
         icon.addPixmap(QtGui.QPixmap("graphics/logo_256x256.png"),
                        QtGui.QIcon.Normal, QtGui.QIcon.On),
         self.rep_btn.setIcon(icon)
-        n_text = self.notifs()
-        notif_label = QtWidgets.QLabel(n_text)
-        notif_label.setWindowTitle("Notification!")
-        notif_label.setGeometry(QtCore.QRect(700, 40, 256, 256))
-        notif_label.show()
+        # n_text = self.notifs()
+        # notif_label = QtWidgets.QLabel(n_text)
+        # notif_label.setWindowTitle("Notification!")
+        # notif_label.setGeometry(QtCore.QRect(700, 40, 256, 256))
+        # notif_label.show()
         # BkgImg = QtWidgets.QLabel('')
         # BkgImg.setGeometry(QtCore.QRect(0, 0, 1024, 600))
 
