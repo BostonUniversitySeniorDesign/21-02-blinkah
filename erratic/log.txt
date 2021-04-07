@@ -1,0 +1,975 @@
+
+detectNet -- loading detection network model from:
+          -- model        networks/SSD-Mobilenet-v2/ssd_mobilenet_v2_coco.uff
+          -- input_blob   'Input'
+          -- output_blob  'NMS'
+          -- output_count 'NMS_1'
+          -- class_labels networks/SSD-Mobilenet-v2/ssd_coco_labels.txt
+          -- threshold    0.500000
+          -- batch_size   1
+
+[TRT]    TensorRT version 7.1.3
+[TRT]    loading NVIDIA plugins...
+[TRT]    Registered plugin creator - ::GridAnchor_TRT version 1
+[TRT]    Registered plugin creator - ::NMS_TRT version 1
+[TRT]    Registered plugin creator - ::Reorg_TRT version 1
+[TRT]    Registered plugin creator - ::Region_TRT version 1
+[TRT]    Registered plugin creator - ::Clip_TRT version 1
+[TRT]    Registered plugin creator - ::LReLU_TRT version 1
+[TRT]    Registered plugin creator - ::PriorBox_TRT version 1
+[TRT]    Registered plugin creator - ::Normalize_TRT version 1
+[TRT]    Registered plugin creator - ::RPROI_TRT version 1
+[TRT]    Registered plugin creator - ::BatchedNMS_TRT version 1
+[0;31m[TRT]    Could not register plugin creator -  ::FlattenConcat_TRT version 1
+[0m[TRT]    Registered plugin creator - ::CropAndResize version 1
+[TRT]    Registered plugin creator - ::DetectionLayer_TRT version 1
+[TRT]    Registered plugin creator - ::Proposal version 1
+[TRT]    Registered plugin creator - ::ProposalLayer_TRT version 1
+[TRT]    Registered plugin creator - ::PyramidROIAlign_TRT version 1
+[TRT]    Registered plugin creator - ::ResizeNearest_TRT version 1
+[TRT]    Registered plugin creator - ::Split version 1
+[TRT]    Registered plugin creator - ::SpecialSlice_TRT version 1
+[TRT]    Registered plugin creator - ::InstanceNormalization_TRT version 1
+[TRT]    detected model format - UFF  (extension '.uff')
+[TRT]    desired precision specified for GPU: FASTEST
+[0;33m[TRT]    requested fasted precision for device GPU without providing valid calibrator, disabling INT8
+[0m[TRT]    native precisions detected for GPU:  FP32, FP16
+[TRT]    selecting fastest native precision for GPU:  FP16
+[TRT]    attempting to open engine cache file /usr/local/bin/networks/SSD-Mobilenet-v2/ssd_mobilenet_v2_coco.uff.1.1.7103.GPU.FP16.engine
+[TRT]    loading network plan from engine cache... /usr/local/bin/networks/SSD-Mobilenet-v2/ssd_mobilenet_v2_coco.uff.1.1.7103.GPU.FP16.engine
+[0;32m[TRT]    device GPU, loaded /usr/local/bin/networks/SSD-Mobilenet-v2/ssd_mobilenet_v2_coco.uff
+[0m[TRT]    Deserialize required 3137804 microseconds.
+[TRT]    
+[TRT]    CUDA engine context initialized on device GPU:
+[TRT]       -- layers       117
+[TRT]       -- maxBatchSize 1
+[TRT]       -- workspace    0
+[TRT]       -- deviceMemory 35449344
+[TRT]       -- bindings     3
+[TRT]       binding 0
+                -- index   0
+                -- name    'Input'
+                -- type    FP32
+                -- in/out  INPUT
+                -- # dims  3
+                -- dim #0  3 (SPATIAL)
+                -- dim #1  300 (SPATIAL)
+                -- dim #2  300 (SPATIAL)
+[TRT]       binding 1
+                -- index   1
+                -- name    'NMS'
+                -- type    FP32
+                -- in/out  OUTPUT
+                -- # dims  3
+                -- dim #0  1 (SPATIAL)
+                -- dim #1  100 (SPATIAL)
+                -- dim #2  7 (SPATIAL)
+[TRT]       binding 2
+                -- index   2
+                -- name    'NMS_1'
+                -- type    FP32
+                -- in/out  OUTPUT
+                -- # dims  3
+                -- dim #0  1 (SPATIAL)
+                -- dim #1  1 (SPATIAL)
+                -- dim #2  1 (SPATIAL)
+[TRT]    
+[TRT]    binding to input 0 Input  binding index:  0
+[TRT]    binding to input 0 Input  dims (b=1 c=3 h=300 w=300) size=1080000
+[TRT]    binding to output 0 NMS  binding index:  1
+[TRT]    binding to output 0 NMS  dims (b=1 c=1 h=100 w=7) size=2800
+[TRT]    binding to output 1 NMS_1  binding index:  2
+[TRT]    binding to output 1 NMS_1  dims (b=1 c=1 h=1 w=1) size=4
+[TRT]    
+[0;32m[TRT]    device GPU, /usr/local/bin/networks/SSD-Mobilenet-v2/ssd_mobilenet_v2_coco.uff initialized.
+[0m[TRT]    W = 7  H = 100  C = 1
+[TRT]    detectNet -- maximum bounding boxes:  100
+[TRT]    detectNet -- loaded 91 class info entries
+[TRT]    detectNet -- number of object classes:  91
+[0;32m[video]  created imageLoader from file:///home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car*.jpg
+[0m------------------------------------------------
+imageLoader video options:
+------------------------------------------------
+  -- URI: file:///home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car*.jpg
+     - protocol:  file
+     - location:  /home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car*.jpg
+     - extension: jpg
+  -- deviceType: file
+  -- ioType:     input
+  -- codec:      unknown
+  -- width:      0
+  -- height:     0
+  -- frameRate:  0.000000
+  -- bitRate:    0
+  -- numBuffers: 4
+  -- zeroCopy:   true
+  -- flipMethod: none
+  -- loop:       0
+  -- rtspLatency 2000
+------------------------------------------------
+[0;32m[video]  created imageWriter from file:///home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car%i.jpg
+[0m------------------------------------------------
+imageWriter video options:
+------------------------------------------------
+  -- URI: file:///home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car%i.jpg
+     - protocol:  file
+     - location:  /home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car%i.jpg
+     - extension: jpg
+  -- deviceType: file
+  -- ioType:     output
+  -- codec:      unknown
+  -- width:      0
+  -- height:     0
+  -- frameRate:  0.000000
+  -- bitRate:    0
+  -- numBuffers: 4
+  -- zeroCopy:   true
+  -- flipMethod: none
+  -- loop:       0
+  -- rtspLatency 2000
+------------------------------------------------
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car0.jpg'  (1920x1080, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car0.jpg'  (1920x1080, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car1.jpg'  (1920x1080, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car1.jpg'  (1920x1080, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car3.jpg'  (1280x720, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car2.jpg'  (1280x720, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car4.jpg'  (1293x1049, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car3.jpg'  (1293x1049, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car5.jpg'  (636x477, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car4.jpg'  (636x477, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car7.jpg'  (640x360, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car5.jpg'  (640x360, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car8.jpg'  (1280x720, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car6.jpg'  (1280x720, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car9.jpg'  (512x384, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car7.jpg'  (512x384, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car10.jpg'  (990x556, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car8.jpg'  (990x556, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car11.jpg'  (640x350, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car9.jpg'  (640x350, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car12.jpg'  (300x225, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car10.jpg'  (300x225, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car13.jpg'  (960x720, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car11.jpg'  (960x720, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car14.jpg'  (786x365, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car12.jpg'  (786x365, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car15.jpg'  (1072x550, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car13.jpg'  (1072x550, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car16.jpg'  (589x355, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car14.jpg'  (589x355, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car17.jpg'  (1280x720, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car15.jpg'  (1280x720, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car18.jpg'  (1111x704, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car16.jpg'  (1111x704, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car19.jpg'  (3024x4032, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car17.jpg'  (3024x4032, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car20.jpg'  (3097x2982, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car18.jpg'  (3097x2982, 3 channels)
+
+detectNet -- loading detection network model from:
+          -- model        networks/SSD-Mobilenet-v2/ssd_mobilenet_v2_coco.uff
+          -- input_blob   'Input'
+          -- output_blob  'NMS'
+          -- output_count 'NMS_1'
+          -- class_labels networks/SSD-Mobilenet-v2/ssd_coco_labels.txt
+          -- threshold    0.500000
+          -- batch_size   1
+
+[TRT]    TensorRT version 7.1.3
+[TRT]    loading NVIDIA plugins...
+[TRT]    Registered plugin creator - ::GridAnchor_TRT version 1
+[TRT]    Registered plugin creator - ::NMS_TRT version 1
+[TRT]    Registered plugin creator - ::Reorg_TRT version 1
+[TRT]    Registered plugin creator - ::Region_TRT version 1
+[TRT]    Registered plugin creator - ::Clip_TRT version 1
+[TRT]    Registered plugin creator - ::LReLU_TRT version 1
+[TRT]    Registered plugin creator - ::PriorBox_TRT version 1
+[TRT]    Registered plugin creator - ::Normalize_TRT version 1
+[TRT]    Registered plugin creator - ::RPROI_TRT version 1
+[TRT]    Registered plugin creator - ::BatchedNMS_TRT version 1
+[0;31m[TRT]    Could not register plugin creator -  ::FlattenConcat_TRT version 1
+[0m[TRT]    Registered plugin creator - ::CropAndResize version 1
+[TRT]    Registered plugin creator - ::DetectionLayer_TRT version 1
+[TRT]    Registered plugin creator - ::Proposal version 1
+[TRT]    Registered plugin creator - ::ProposalLayer_TRT version 1
+[TRT]    Registered plugin creator - ::PyramidROIAlign_TRT version 1
+[TRT]    Registered plugin creator - ::ResizeNearest_TRT version 1
+[TRT]    Registered plugin creator - ::Split version 1
+[TRT]    Registered plugin creator - ::SpecialSlice_TRT version 1
+[TRT]    Registered plugin creator - ::InstanceNormalization_TRT version 1
+[TRT]    detected model format - UFF  (extension '.uff')
+[TRT]    desired precision specified for GPU: FASTEST
+[0;33m[TRT]    requested fasted precision for device GPU without providing valid calibrator, disabling INT8
+[0m[TRT]    native precisions detected for GPU:  FP32, FP16
+[TRT]    selecting fastest native precision for GPU:  FP16
+[TRT]    attempting to open engine cache file /usr/local/bin/networks/SSD-Mobilenet-v2/ssd_mobilenet_v2_coco.uff.1.1.7103.GPU.FP16.engine
+[TRT]    loading network plan from engine cache... /usr/local/bin/networks/SSD-Mobilenet-v2/ssd_mobilenet_v2_coco.uff.1.1.7103.GPU.FP16.engine
+[0;32m[TRT]    device GPU, loaded /usr/local/bin/networks/SSD-Mobilenet-v2/ssd_mobilenet_v2_coco.uff
+[0m[TRT]    Deserialize required 3102856 microseconds.
+[TRT]    
+[TRT]    CUDA engine context initialized on device GPU:
+[TRT]       -- layers       117
+[TRT]       -- maxBatchSize 1
+[TRT]       -- workspace    0
+[TRT]       -- deviceMemory 35449344
+[TRT]       -- bindings     3
+[TRT]       binding 0
+                -- index   0
+                -- name    'Input'
+                -- type    FP32
+                -- in/out  INPUT
+                -- # dims  3
+                -- dim #0  3 (SPATIAL)
+                -- dim #1  300 (SPATIAL)
+                -- dim #2  300 (SPATIAL)
+[TRT]       binding 1
+                -- index   1
+                -- name    'NMS'
+                -- type    FP32
+                -- in/out  OUTPUT
+                -- # dims  3
+                -- dim #0  1 (SPATIAL)
+                -- dim #1  100 (SPATIAL)
+                -- dim #2  7 (SPATIAL)
+[TRT]       binding 2
+                -- index   2
+                -- name    'NMS_1'
+                -- type    FP32
+                -- in/out  OUTPUT
+                -- # dims  3
+                -- dim #0  1 (SPATIAL)
+                -- dim #1  1 (SPATIAL)
+                -- dim #2  1 (SPATIAL)
+[TRT]    
+[TRT]    binding to input 0 Input  binding index:  0
+[TRT]    binding to input 0 Input  dims (b=1 c=3 h=300 w=300) size=1080000
+[TRT]    binding to output 0 NMS  binding index:  1
+[TRT]    binding to output 0 NMS  dims (b=1 c=1 h=100 w=7) size=2800
+[TRT]    binding to output 1 NMS_1  binding index:  2
+[TRT]    binding to output 1 NMS_1  dims (b=1 c=1 h=1 w=1) size=4
+[TRT]    
+[0;32m[TRT]    device GPU, /usr/local/bin/networks/SSD-Mobilenet-v2/ssd_mobilenet_v2_coco.uff initialized.
+[0m[TRT]    W = 7  H = 100  C = 1
+[TRT]    detectNet -- maximum bounding boxes:  100
+[TRT]    detectNet -- loaded 91 class info entries
+[TRT]    detectNet -- number of object classes:  91
+[0;32m[video]  created imageLoader from file:///home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car*.jpg
+[0m------------------------------------------------
+imageLoader video options:
+------------------------------------------------
+  -- URI: file:///home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car*.jpg
+     - protocol:  file
+     - location:  /home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car*.jpg
+     - extension: jpg
+  -- deviceType: file
+  -- ioType:     input
+  -- codec:      unknown
+  -- width:      0
+  -- height:     0
+  -- frameRate:  0.000000
+  -- bitRate:    0
+  -- numBuffers: 4
+  -- zeroCopy:   true
+  -- flipMethod: none
+  -- loop:       0
+  -- rtspLatency 2000
+------------------------------------------------
+[0;32m[video]  created imageWriter from file:///home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car%i.jpg
+[0m------------------------------------------------
+imageWriter video options:
+------------------------------------------------
+  -- URI: file:///home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car%i.jpg
+     - protocol:  file
+     - location:  /home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car%i.jpg
+     - extension: jpg
+  -- deviceType: file
+  -- ioType:     output
+  -- codec:      unknown
+  -- width:      0
+  -- height:     0
+  -- frameRate:  0.000000
+  -- bitRate:    0
+  -- numBuffers: 4
+  -- zeroCopy:   true
+  -- flipMethod: none
+  -- loop:       0
+  -- rtspLatency 2000
+------------------------------------------------
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car0.jpg'  (1920x1080, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car0.jpg'  (1920x1080, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car1.jpg'  (1920x1080, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car1.jpg'  (1920x1080, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car3.jpg'  (1280x720, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car2.jpg'  (1280x720, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car4.jpg'  (1293x1049, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car3.jpg'  (1293x1049, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car5.jpg'  (636x477, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car4.jpg'  (636x477, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car7.jpg'  (640x360, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car5.jpg'  (640x360, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car8.jpg'  (1280x720, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car6.jpg'  (1280x720, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car9.jpg'  (512x384, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car7.jpg'  (512x384, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car10.jpg'  (990x556, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car8.jpg'  (990x556, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car11.jpg'  (640x350, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car9.jpg'  (640x350, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car12.jpg'  (300x225, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car10.jpg'  (300x225, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car13.jpg'  (960x720, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car11.jpg'  (960x720, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car14.jpg'  (786x365, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car12.jpg'  (786x365, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car15.jpg'  (1072x550, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car13.jpg'  (1072x550, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car16.jpg'  (589x355, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car14.jpg'  (589x355, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car17.jpg'  (1280x720, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car15.jpg'  (1280x720, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car18.jpg'  (1111x704, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car16.jpg'  (1111x704, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car19.jpg'  (3024x4032, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car17.jpg'  (3024x4032, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car20.jpg'  (3097x2982, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car18.jpg'  (3097x2982, 3 channels)
+
+detectNet -- loading detection network model from:
+          -- model        networks/SSD-Mobilenet-v2/ssd_mobilenet_v2_coco.uff
+          -- input_blob   'Input'
+          -- output_blob  'NMS'
+          -- output_count 'NMS_1'
+          -- class_labels networks/SSD-Mobilenet-v2/ssd_coco_labels.txt
+          -- threshold    0.500000
+          -- batch_size   1
+
+[TRT]    TensorRT version 7.1.3
+[TRT]    loading NVIDIA plugins...
+[TRT]    Registered plugin creator - ::GridAnchor_TRT version 1
+[TRT]    Registered plugin creator - ::NMS_TRT version 1
+[TRT]    Registered plugin creator - ::Reorg_TRT version 1
+[TRT]    Registered plugin creator - ::Region_TRT version 1
+[TRT]    Registered plugin creator - ::Clip_TRT version 1
+[TRT]    Registered plugin creator - ::LReLU_TRT version 1
+[TRT]    Registered plugin creator - ::PriorBox_TRT version 1
+[TRT]    Registered plugin creator - ::Normalize_TRT version 1
+[TRT]    Registered plugin creator - ::RPROI_TRT version 1
+[TRT]    Registered plugin creator - ::BatchedNMS_TRT version 1
+[0;31m[TRT]    Could not register plugin creator -  ::FlattenConcat_TRT version 1
+[0m[TRT]    Registered plugin creator - ::CropAndResize version 1
+[TRT]    Registered plugin creator - ::DetectionLayer_TRT version 1
+[TRT]    Registered plugin creator - ::Proposal version 1
+[TRT]    Registered plugin creator - ::ProposalLayer_TRT version 1
+[TRT]    Registered plugin creator - ::PyramidROIAlign_TRT version 1
+[TRT]    Registered plugin creator - ::ResizeNearest_TRT version 1
+[TRT]    Registered plugin creator - ::Split version 1
+[TRT]    Registered plugin creator - ::SpecialSlice_TRT version 1
+[TRT]    Registered plugin creator - ::InstanceNormalization_TRT version 1
+[TRT]    detected model format - UFF  (extension '.uff')
+[TRT]    desired precision specified for GPU: FASTEST
+[0;33m[TRT]    requested fasted precision for device GPU without providing valid calibrator, disabling INT8
+[0m[TRT]    native precisions detected for GPU:  FP32, FP16
+[TRT]    selecting fastest native precision for GPU:  FP16
+[TRT]    attempting to open engine cache file /usr/local/bin/networks/SSD-Mobilenet-v2/ssd_mobilenet_v2_coco.uff.1.1.7103.GPU.FP16.engine
+[TRT]    loading network plan from engine cache... /usr/local/bin/networks/SSD-Mobilenet-v2/ssd_mobilenet_v2_coco.uff.1.1.7103.GPU.FP16.engine
+[0;32m[TRT]    device GPU, loaded /usr/local/bin/networks/SSD-Mobilenet-v2/ssd_mobilenet_v2_coco.uff
+[0m[TRT]    Deserialize required 3103361 microseconds.
+[TRT]    
+[TRT]    CUDA engine context initialized on device GPU:
+[TRT]       -- layers       117
+[TRT]       -- maxBatchSize 1
+[TRT]       -- workspace    0
+[TRT]       -- deviceMemory 35449344
+[TRT]       -- bindings     3
+[TRT]       binding 0
+                -- index   0
+                -- name    'Input'
+                -- type    FP32
+                -- in/out  INPUT
+                -- # dims  3
+                -- dim #0  3 (SPATIAL)
+                -- dim #1  300 (SPATIAL)
+                -- dim #2  300 (SPATIAL)
+[TRT]       binding 1
+                -- index   1
+                -- name    'NMS'
+                -- type    FP32
+                -- in/out  OUTPUT
+                -- # dims  3
+                -- dim #0  1 (SPATIAL)
+                -- dim #1  100 (SPATIAL)
+                -- dim #2  7 (SPATIAL)
+[TRT]       binding 2
+                -- index   2
+                -- name    'NMS_1'
+                -- type    FP32
+                -- in/out  OUTPUT
+                -- # dims  3
+                -- dim #0  1 (SPATIAL)
+                -- dim #1  1 (SPATIAL)
+                -- dim #2  1 (SPATIAL)
+[TRT]    
+[TRT]    binding to input 0 Input  binding index:  0
+[TRT]    binding to input 0 Input  dims (b=1 c=3 h=300 w=300) size=1080000
+[TRT]    binding to output 0 NMS  binding index:  1
+[TRT]    binding to output 0 NMS  dims (b=1 c=1 h=100 w=7) size=2800
+[TRT]    binding to output 1 NMS_1  binding index:  2
+[TRT]    binding to output 1 NMS_1  dims (b=1 c=1 h=1 w=1) size=4
+[TRT]    
+[0;32m[TRT]    device GPU, /usr/local/bin/networks/SSD-Mobilenet-v2/ssd_mobilenet_v2_coco.uff initialized.
+[0m[TRT]    W = 7  H = 100  C = 1
+[TRT]    detectNet -- maximum bounding boxes:  100
+[TRT]    detectNet -- loaded 91 class info entries
+[TRT]    detectNet -- number of object classes:  91
+[0;32m[video]  created imageLoader from file:///home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car*.jpg
+[0m------------------------------------------------
+imageLoader video options:
+------------------------------------------------
+  -- URI: file:///home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car*.jpg
+     - protocol:  file
+     - location:  /home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car*.jpg
+     - extension: jpg
+  -- deviceType: file
+  -- ioType:     input
+  -- codec:      unknown
+  -- width:      0
+  -- height:     0
+  -- frameRate:  0.000000
+  -- bitRate:    0
+  -- numBuffers: 4
+  -- zeroCopy:   true
+  -- flipMethod: none
+  -- loop:       0
+  -- rtspLatency 2000
+------------------------------------------------
+[0;32m[video]  created imageWriter from file:///home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car%i.jpg
+[0m------------------------------------------------
+imageWriter video options:
+------------------------------------------------
+  -- URI: file:///home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car%i.jpg
+     - protocol:  file
+     - location:  /home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car%i.jpg
+     - extension: jpg
+  -- deviceType: file
+  -- ioType:     output
+  -- codec:      unknown
+  -- width:      0
+  -- height:     0
+  -- frameRate:  0.000000
+  -- bitRate:    0
+  -- numBuffers: 4
+  -- zeroCopy:   true
+  -- flipMethod: none
+  -- loop:       0
+  -- rtspLatency 2000
+------------------------------------------------
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car0.jpg'  (1920x1080, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car0.jpg'  (1920x1080, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car1.jpg'  (1920x1080, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car1.jpg'  (1920x1080, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car3.jpg'  (1280x720, 3 channels)
+
+detectNet -- loading detection network model from:
+          -- model        networks/SSD-Mobilenet-v2/ssd_mobilenet_v2_coco.uff
+          -- input_blob   'Input'
+          -- output_blob  'NMS'
+          -- output_count 'NMS_1'
+          -- class_labels networks/SSD-Mobilenet-v2/ssd_coco_labels.txt
+          -- threshold    0.500000
+          -- batch_size   1
+
+[TRT]    TensorRT version 7.1.3
+[TRT]    loading NVIDIA plugins...
+[TRT]    Registered plugin creator - ::GridAnchor_TRT version 1
+[TRT]    Registered plugin creator - ::NMS_TRT version 1
+[TRT]    Registered plugin creator - ::Reorg_TRT version 1
+[TRT]    Registered plugin creator - ::Region_TRT version 1
+[TRT]    Registered plugin creator - ::Clip_TRT version 1
+[TRT]    Registered plugin creator - ::LReLU_TRT version 1
+[TRT]    Registered plugin creator - ::PriorBox_TRT version 1
+[TRT]    Registered plugin creator - ::Normalize_TRT version 1
+[TRT]    Registered plugin creator - ::RPROI_TRT version 1
+[TRT]    Registered plugin creator - ::BatchedNMS_TRT version 1
+[0;31m[TRT]    Could not register plugin creator -  ::FlattenConcat_TRT version 1
+[0m[TRT]    Registered plugin creator - ::CropAndResize version 1
+[TRT]    Registered plugin creator - ::DetectionLayer_TRT version 1
+[TRT]    Registered plugin creator - ::Proposal version 1
+[TRT]    Registered plugin creator - ::ProposalLayer_TRT version 1
+[TRT]    Registered plugin creator - ::PyramidROIAlign_TRT version 1
+[TRT]    Registered plugin creator - ::ResizeNearest_TRT version 1
+[TRT]    Registered plugin creator - ::Split version 1
+[TRT]    Registered plugin creator - ::SpecialSlice_TRT version 1
+[TRT]    Registered plugin creator - ::InstanceNormalization_TRT version 1
+[TRT]    detected model format - UFF  (extension '.uff')
+[TRT]    desired precision specified for GPU: FASTEST
+[0;33m[TRT]    requested fasted precision for device GPU without providing valid calibrator, disabling INT8
+[0m[TRT]    native precisions detected for GPU:  FP32, FP16
+[TRT]    selecting fastest native precision for GPU:  FP16
+[TRT]    attempting to open engine cache file /usr/local/bin/networks/SSD-Mobilenet-v2/ssd_mobilenet_v2_coco.uff.1.1.7103.GPU.FP16.engine
+[TRT]    loading network plan from engine cache... /usr/local/bin/networks/SSD-Mobilenet-v2/ssd_mobilenet_v2_coco.uff.1.1.7103.GPU.FP16.engine
+[0;32m[TRT]    device GPU, loaded /usr/local/bin/networks/SSD-Mobilenet-v2/ssd_mobilenet_v2_coco.uff
+[0m[TRT]    Deserialize required 3159879 microseconds.
+[TRT]    
+[TRT]    CUDA engine context initialized on device GPU:
+[TRT]       -- layers       117
+[TRT]       -- maxBatchSize 1
+[TRT]       -- workspace    0
+[TRT]       -- deviceMemory 35449344
+[TRT]       -- bindings     3
+[TRT]       binding 0
+                -- index   0
+                -- name    'Input'
+                -- type    FP32
+                -- in/out  INPUT
+                -- # dims  3
+                -- dim #0  3 (SPATIAL)
+                -- dim #1  300 (SPATIAL)
+                -- dim #2  300 (SPATIAL)
+[TRT]       binding 1
+                -- index   1
+                -- name    'NMS'
+                -- type    FP32
+                -- in/out  OUTPUT
+                -- # dims  3
+                -- dim #0  1 (SPATIAL)
+                -- dim #1  100 (SPATIAL)
+                -- dim #2  7 (SPATIAL)
+[TRT]       binding 2
+                -- index   2
+                -- name    'NMS_1'
+                -- type    FP32
+                -- in/out  OUTPUT
+                -- # dims  3
+                -- dim #0  1 (SPATIAL)
+                -- dim #1  1 (SPATIAL)
+                -- dim #2  1 (SPATIAL)
+[TRT]    
+[TRT]    binding to input 0 Input  binding index:  0
+[TRT]    binding to input 0 Input  dims (b=1 c=3 h=300 w=300) size=1080000
+[TRT]    binding to output 0 NMS  binding index:  1
+[TRT]    binding to output 0 NMS  dims (b=1 c=1 h=100 w=7) size=2800
+[TRT]    binding to output 1 NMS_1  binding index:  2
+[TRT]    binding to output 1 NMS_1  dims (b=1 c=1 h=1 w=1) size=4
+[TRT]    
+[0;32m[TRT]    device GPU, /usr/local/bin/networks/SSD-Mobilenet-v2/ssd_mobilenet_v2_coco.uff initialized.
+[0m[TRT]    W = 7  H = 100  C = 1
+[TRT]    detectNet -- maximum bounding boxes:  100
+[TRT]    detectNet -- loaded 91 class info entries
+[TRT]    detectNet -- number of object classes:  91
+[0;32m[video]  created imageLoader from file:///home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car*.jpg
+[0m------------------------------------------------
+imageLoader video options:
+------------------------------------------------
+  -- URI: file:///home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car*.jpg
+     - protocol:  file
+     - location:  /home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car*.jpg
+     - extension: jpg
+  -- deviceType: file
+  -- ioType:     input
+  -- codec:      unknown
+  -- width:      0
+  -- height:     0
+  -- frameRate:  0.000000
+  -- bitRate:    0
+  -- numBuffers: 4
+  -- zeroCopy:   true
+  -- flipMethod: none
+  -- loop:       0
+  -- rtspLatency 2000
+------------------------------------------------
+[0;32m[video]  created imageWriter from file:///home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car%i.jpg
+[0m------------------------------------------------
+imageWriter video options:
+------------------------------------------------
+  -- URI: file:///home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car%i.jpg
+     - protocol:  file
+     - location:  /home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car%i.jpg
+     - extension: jpg
+  -- deviceType: file
+  -- ioType:     output
+  -- codec:      unknown
+  -- width:      0
+  -- height:     0
+  -- frameRate:  0.000000
+  -- bitRate:    0
+  -- numBuffers: 4
+  -- zeroCopy:   true
+  -- flipMethod: none
+  -- loop:       0
+  -- rtspLatency 2000
+------------------------------------------------
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car0.jpg'  (1920x1080, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car0.jpg'  (1920x1080, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car1.jpg'  (1920x1080, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car1.jpg'  (1920x1080, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car3.jpg'  (1280x720, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car2.jpg'  (1280x720, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car4.jpg'  (1293x1049, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car3.jpg'  (1293x1049, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car5.jpg'  (636x477, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car4.jpg'  (636x477, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car7.jpg'  (640x360, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car5.jpg'  (640x360, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car8.jpg'  (1280x720, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car6.jpg'  (1280x720, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car9.jpg'  (512x384, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car7.jpg'  (512x384, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car10.jpg'  (990x556, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car8.jpg'  (990x556, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car11.jpg'  (640x350, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car9.jpg'  (640x350, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car12.jpg'  (300x225, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car10.jpg'  (300x225, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car13.jpg'  (960x720, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car11.jpg'  (960x720, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car14.jpg'  (786x365, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car12.jpg'  (786x365, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car15.jpg'  (1072x550, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car13.jpg'  (1072x550, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car16.jpg'  (589x355, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car14.jpg'  (589x355, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car17.jpg'  (1280x720, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car15.jpg'  (1280x720, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car18.jpg'  (1111x704, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car16.jpg'  (1111x704, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car19.jpg'  (3024x4032, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car17.jpg'  (3024x4032, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car20.jpg'  (3097x2982, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car18.jpg'  (3097x2982, 3 channels)
+
+detectNet -- loading detection network model from:
+          -- model        networks/SSD-Mobilenet-v2/ssd_mobilenet_v2_coco.uff
+          -- input_blob   'Input'
+          -- output_blob  'NMS'
+          -- output_count 'NMS_1'
+          -- class_labels networks/SSD-Mobilenet-v2/ssd_coco_labels.txt
+          -- threshold    0.500000
+          -- batch_size   1
+
+[TRT]    TensorRT version 7.1.3
+[TRT]    loading NVIDIA plugins...
+[TRT]    Registered plugin creator - ::GridAnchor_TRT version 1
+[TRT]    Registered plugin creator - ::NMS_TRT version 1
+[TRT]    Registered plugin creator - ::Reorg_TRT version 1
+[TRT]    Registered plugin creator - ::Region_TRT version 1
+[TRT]    Registered plugin creator - ::Clip_TRT version 1
+[TRT]    Registered plugin creator - ::LReLU_TRT version 1
+[TRT]    Registered plugin creator - ::PriorBox_TRT version 1
+[TRT]    Registered plugin creator - ::Normalize_TRT version 1
+[TRT]    Registered plugin creator - ::RPROI_TRT version 1
+[TRT]    Registered plugin creator - ::BatchedNMS_TRT version 1
+[0;31m[TRT]    Could not register plugin creator -  ::FlattenConcat_TRT version 1
+[0m[TRT]    Registered plugin creator - ::CropAndResize version 1
+[TRT]    Registered plugin creator - ::DetectionLayer_TRT version 1
+[TRT]    Registered plugin creator - ::Proposal version 1
+[TRT]    Registered plugin creator - ::ProposalLayer_TRT version 1
+[TRT]    Registered plugin creator - ::PyramidROIAlign_TRT version 1
+[TRT]    Registered plugin creator - ::ResizeNearest_TRT version 1
+[TRT]    Registered plugin creator - ::Split version 1
+[TRT]    Registered plugin creator - ::SpecialSlice_TRT version 1
+[TRT]    Registered plugin creator - ::InstanceNormalization_TRT version 1
+[TRT]    detected model format - UFF  (extension '.uff')
+[TRT]    desired precision specified for GPU: FASTEST
+[0;33m[TRT]    requested fasted precision for device GPU without providing valid calibrator, disabling INT8
+[0m[TRT]    native precisions detected for GPU:  FP32, FP16
+[TRT]    selecting fastest native precision for GPU:  FP16
+[TRT]    attempting to open engine cache file /usr/local/bin/networks/SSD-Mobilenet-v2/ssd_mobilenet_v2_coco.uff.1.1.7103.GPU.FP16.engine
+[TRT]    loading network plan from engine cache... /usr/local/bin/networks/SSD-Mobilenet-v2/ssd_mobilenet_v2_coco.uff.1.1.7103.GPU.FP16.engine
+[0;32m[TRT]    device GPU, loaded /usr/local/bin/networks/SSD-Mobilenet-v2/ssd_mobilenet_v2_coco.uff
+[0m[TRT]    Deserialize required 3121954 microseconds.
+[TRT]    
+[TRT]    CUDA engine context initialized on device GPU:
+[TRT]       -- layers       117
+[TRT]       -- maxBatchSize 1
+[TRT]       -- workspace    0
+[TRT]       -- deviceMemory 35449344
+[TRT]       -- bindings     3
+[TRT]       binding 0
+                -- index   0
+                -- name    'Input'
+                -- type    FP32
+                -- in/out  INPUT
+                -- # dims  3
+                -- dim #0  3 (SPATIAL)
+                -- dim #1  300 (SPATIAL)
+                -- dim #2  300 (SPATIAL)
+[TRT]       binding 1
+                -- index   1
+                -- name    'NMS'
+                -- type    FP32
+                -- in/out  OUTPUT
+                -- # dims  3
+                -- dim #0  1 (SPATIAL)
+                -- dim #1  100 (SPATIAL)
+                -- dim #2  7 (SPATIAL)
+[TRT]       binding 2
+                -- index   2
+                -- name    'NMS_1'
+                -- type    FP32
+                -- in/out  OUTPUT
+                -- # dims  3
+                -- dim #0  1 (SPATIAL)
+                -- dim #1  1 (SPATIAL)
+                -- dim #2  1 (SPATIAL)
+[TRT]    
+[TRT]    binding to input 0 Input  binding index:  0
+[TRT]    binding to input 0 Input  dims (b=1 c=3 h=300 w=300) size=1080000
+[TRT]    binding to output 0 NMS  binding index:  1
+[TRT]    binding to output 0 NMS  dims (b=1 c=1 h=100 w=7) size=2800
+[TRT]    binding to output 1 NMS_1  binding index:  2
+[TRT]    binding to output 1 NMS_1  dims (b=1 c=1 h=1 w=1) size=4
+[TRT]    
+[0;32m[TRT]    device GPU, /usr/local/bin/networks/SSD-Mobilenet-v2/ssd_mobilenet_v2_coco.uff initialized.
+[0m[TRT]    W = 7  H = 100  C = 1
+[TRT]    detectNet -- maximum bounding boxes:  100
+[TRT]    detectNet -- loaded 91 class info entries
+[TRT]    detectNet -- number of object classes:  91
+[0;32m[video]  created imageLoader from file:///home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car*.jpg
+[0m------------------------------------------------
+imageLoader video options:
+------------------------------------------------
+  -- URI: file:///home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car*.jpg
+     - protocol:  file
+     - location:  /home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car*.jpg
+     - extension: jpg
+  -- deviceType: file
+  -- ioType:     input
+  -- codec:      unknown
+  -- width:      0
+  -- height:     0
+  -- frameRate:  0.000000
+  -- bitRate:    0
+  -- numBuffers: 4
+  -- zeroCopy:   true
+  -- flipMethod: none
+  -- loop:       0
+  -- rtspLatency 2000
+------------------------------------------------
+[0;32m[video]  created imageWriter from file:///home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car%i.jpg
+[0m------------------------------------------------
+imageWriter video options:
+------------------------------------------------
+  -- URI: file:///home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car%i.jpg
+     - protocol:  file
+     - location:  /home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car%i.jpg
+     - extension: jpg
+  -- deviceType: file
+  -- ioType:     output
+  -- codec:      unknown
+  -- width:      0
+  -- height:     0
+  -- frameRate:  0.000000
+  -- bitRate:    0
+  -- numBuffers: 4
+  -- zeroCopy:   true
+  -- flipMethod: none
+  -- loop:       0
+  -- rtspLatency 2000
+------------------------------------------------
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car0.jpg'  (1920x1080, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car0.jpg'  (1920x1080, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car1.jpg'  (1920x1080, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car1.jpg'  (1920x1080, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car3.jpg'  (1280x720, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car2.jpg'  (1280x720, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car4.jpg'  (1293x1049, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car3.jpg'  (1293x1049, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car5.jpg'  (636x477, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car4.jpg'  (636x477, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car7.jpg'  (640x360, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car5.jpg'  (640x360, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car8.jpg'  (1280x720, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car6.jpg'  (1280x720, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car9.jpg'  (512x384, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car7.jpg'  (512x384, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car10.jpg'  (990x556, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car8.jpg'  (990x556, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car11.jpg'  (640x350, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car9.jpg'  (640x350, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car12.jpg'  (300x225, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car10.jpg'  (300x225, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car13.jpg'  (960x720, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car11.jpg'  (960x720, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car14.jpg'  (786x365, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car12.jpg'  (786x365, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car15.jpg'  (1072x550, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car13.jpg'  (1072x550, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car16.jpg'  (589x355, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car14.jpg'  (589x355, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car17.jpg'  (1280x720, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car15.jpg'  (1280x720, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car18.jpg'  (1111x704, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car16.jpg'  (1111x704, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car19.jpg'  (3024x4032, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car17.jpg'  (3024x4032, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car20.jpg'  (3097x2982, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car18.jpg'  (3097x2982, 3 channels)
+
+detectNet -- loading detection network model from:
+          -- model        networks/SSD-Mobilenet-v2/ssd_mobilenet_v2_coco.uff
+          -- input_blob   'Input'
+          -- output_blob  'NMS'
+          -- output_count 'NMS_1'
+          -- class_labels networks/SSD-Mobilenet-v2/ssd_coco_labels.txt
+          -- threshold    0.500000
+          -- batch_size   1
+
+[TRT]    TensorRT version 7.1.3
+[TRT]    loading NVIDIA plugins...
+[TRT]    Registered plugin creator - ::GridAnchor_TRT version 1
+[TRT]    Registered plugin creator - ::NMS_TRT version 1
+[TRT]    Registered plugin creator - ::Reorg_TRT version 1
+[TRT]    Registered plugin creator - ::Region_TRT version 1
+[TRT]    Registered plugin creator - ::Clip_TRT version 1
+[TRT]    Registered plugin creator - ::LReLU_TRT version 1
+[TRT]    Registered plugin creator - ::PriorBox_TRT version 1
+[TRT]    Registered plugin creator - ::Normalize_TRT version 1
+[TRT]    Registered plugin creator - ::RPROI_TRT version 1
+[TRT]    Registered plugin creator - ::BatchedNMS_TRT version 1
+[0;31m[TRT]    Could not register plugin creator -  ::FlattenConcat_TRT version 1
+[0m[TRT]    Registered plugin creator - ::CropAndResize version 1
+[TRT]    Registered plugin creator - ::DetectionLayer_TRT version 1
+[TRT]    Registered plugin creator - ::Proposal version 1
+[TRT]    Registered plugin creator - ::ProposalLayer_TRT version 1
+[TRT]    Registered plugin creator - ::PyramidROIAlign_TRT version 1
+[TRT]    Registered plugin creator - ::ResizeNearest_TRT version 1
+[TRT]    Registered plugin creator - ::Split version 1
+[TRT]    Registered plugin creator - ::SpecialSlice_TRT version 1
+[TRT]    Registered plugin creator - ::InstanceNormalization_TRT version 1
+[TRT]    detected model format - UFF  (extension '.uff')
+[TRT]    desired precision specified for GPU: FASTEST
+[0;33m[TRT]    requested fasted precision for device GPU without providing valid calibrator, disabling INT8
+[0m[TRT]    native precisions detected for GPU:  FP32, FP16
+[TRT]    selecting fastest native precision for GPU:  FP16
+[TRT]    attempting to open engine cache file /usr/local/bin/networks/SSD-Mobilenet-v2/ssd_mobilenet_v2_coco.uff.1.1.7103.GPU.FP16.engine
+[TRT]    loading network plan from engine cache... /usr/local/bin/networks/SSD-Mobilenet-v2/ssd_mobilenet_v2_coco.uff.1.1.7103.GPU.FP16.engine
+[0;32m[TRT]    device GPU, loaded /usr/local/bin/networks/SSD-Mobilenet-v2/ssd_mobilenet_v2_coco.uff
+[0m[TRT]    Deserialize required 3172430 microseconds.
+[TRT]    
+[TRT]    CUDA engine context initialized on device GPU:
+[TRT]       -- layers       117
+[TRT]       -- maxBatchSize 1
+[TRT]       -- workspace    0
+[TRT]       -- deviceMemory 35449344
+[TRT]       -- bindings     3
+[TRT]       binding 0
+                -- index   0
+                -- name    'Input'
+                -- type    FP32
+                -- in/out  INPUT
+                -- # dims  3
+                -- dim #0  3 (SPATIAL)
+                -- dim #1  300 (SPATIAL)
+                -- dim #2  300 (SPATIAL)
+[TRT]       binding 1
+                -- index   1
+                -- name    'NMS'
+                -- type    FP32
+                -- in/out  OUTPUT
+                -- # dims  3
+                -- dim #0  1 (SPATIAL)
+                -- dim #1  100 (SPATIAL)
+                -- dim #2  7 (SPATIAL)
+[TRT]       binding 2
+                -- index   2
+                -- name    'NMS_1'
+                -- type    FP32
+                -- in/out  OUTPUT
+                -- # dims  3
+                -- dim #0  1 (SPATIAL)
+                -- dim #1  1 (SPATIAL)
+                -- dim #2  1 (SPATIAL)
+[TRT]    
+[TRT]    binding to input 0 Input  binding index:  0
+[TRT]    binding to input 0 Input  dims (b=1 c=3 h=300 w=300) size=1080000
+[TRT]    binding to output 0 NMS  binding index:  1
+[TRT]    binding to output 0 NMS  dims (b=1 c=1 h=100 w=7) size=2800
+[TRT]    binding to output 1 NMS_1  binding index:  2
+[TRT]    binding to output 1 NMS_1  dims (b=1 c=1 h=1 w=1) size=4
+[TRT]    
+[0;32m[TRT]    device GPU, /usr/local/bin/networks/SSD-Mobilenet-v2/ssd_mobilenet_v2_coco.uff initialized.
+[0m[TRT]    W = 7  H = 100  C = 1
+[TRT]    detectNet -- maximum bounding boxes:  100
+[TRT]    detectNet -- loaded 91 class info entries
+[TRT]    detectNet -- number of object classes:  91
+[0;32m[video]  created imageLoader from file:///home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car*.jpg
+[0m------------------------------------------------
+imageLoader video options:
+------------------------------------------------
+  -- URI: file:///home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car*.jpg
+     - protocol:  file
+     - location:  /home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car*.jpg
+     - extension: jpg
+  -- deviceType: file
+  -- ioType:     input
+  -- codec:      unknown
+  -- width:      0
+  -- height:     0
+  -- frameRate:  0.000000
+  -- bitRate:    0
+  -- numBuffers: 4
+  -- zeroCopy:   true
+  -- flipMethod: none
+  -- loop:       0
+  -- rtspLatency 2000
+------------------------------------------------
+[0;32m[video]  created imageWriter from file:///home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car%i.jpg
+[0m------------------------------------------------
+imageWriter video options:
+------------------------------------------------
+  -- URI: file:///home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car%i.jpg
+     - protocol:  file
+     - location:  /home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car%i.jpg
+     - extension: jpg
+  -- deviceType: file
+  -- ioType:     output
+  -- codec:      unknown
+  -- width:      0
+  -- height:     0
+  -- frameRate:  0.000000
+  -- bitRate:    0
+  -- numBuffers: 4
+  -- zeroCopy:   true
+  -- flipMethod: none
+  -- loop:       0
+  -- rtspLatency 2000
+------------------------------------------------
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car0.jpg'  (1920x1080, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car0.jpg'  (1920x1080, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car1.jpg'  (1920x1080, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car1.jpg'  (1920x1080, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car3.jpg'  (1280x720, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car2.jpg'  (1280x720, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car4.jpg'  (1293x1049, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car3.jpg'  (1293x1049, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car5.jpg'  (636x477, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car4.jpg'  (636x477, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car7.jpg'  (640x360, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car5.jpg'  (640x360, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car8.jpg'  (1280x720, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car6.jpg'  (1280x720, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car9.jpg'  (512x384, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car7.jpg'  (512x384, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car10.jpg'  (990x556, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car8.jpg'  (990x556, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car11.jpg'  (640x350, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car9.jpg'  (640x350, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car12.jpg'  (300x225, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car10.jpg'  (300x225, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car13.jpg'  (960x720, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car11.jpg'  (960x720, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car14.jpg'  (786x365, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car12.jpg'  (786x365, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car15.jpg'  (1072x550, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car13.jpg'  (1072x550, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car16.jpg'  (589x355, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car14.jpg'  (589x355, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car17.jpg'  (1280x720, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car15.jpg'  (1280x720, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car18.jpg'  (1111x704, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car16.jpg'  (1111x704, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car19.jpg'  (3024x4032, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car17.jpg'  (3024x4032, 3 channels)
+[image] loaded '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/car20.jpg'  (3097x2982, 3 channels)
+[image] saved '/home/blinkah/Documents/21-02-blinkah/erratic/sample_data/analyzed/car18.jpg'  (3097x2982, 3 channels)

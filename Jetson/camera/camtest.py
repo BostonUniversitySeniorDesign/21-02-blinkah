@@ -5,7 +5,6 @@ import time
 
 camera = CSICamera(width=1920, height=1080, capture_device=0)
 
-
 def read_camera(camera, cnt):
   img = camera.read()
   jpg = bgr8_to_jpeg(img)
