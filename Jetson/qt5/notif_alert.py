@@ -5,7 +5,6 @@ import subprocess
 import time
 import urllib.request
 import json
-#import pyaudio
 
 
 def notif_alert():
@@ -16,8 +15,6 @@ def notif_alert():
 
     # Get request to get JSON data of notification message & license plate
     r = requests.get(url, params=payload)
-    # print(r.text)
-
     p_text = r.text
     p_tfin = json.loads(p_text)
     lp_msg3 = (p_tfin[2]['message_text'])
@@ -27,20 +24,14 @@ def notif_alert():
     full_msg = (lp_msg3 + "!\nLicense plate is: " + lp_lp3)
     print(full_msg)
 
-    # urllib.request.urlretrieve(lp_audio3, 'notif.mp3')
-    # #r2 = requests.get(lp_audio3, allow_redirects=True)
-
-    # #open('notif.mp3', 'wb').write(r2.content)
-    # a = subprocess.Popen(['cvlc', notif.mp3])
-    # time.sleep(3)
-    # a.kill()
-    # # p.play()
+    urllib.request.urlretrieve(lp_audio3, 'notif.mp3')
+    # r2 = requests.get(lp_audio3, allow_redirects=True)
+    # open('notif2.mp3', 'wb').write(r2.content)
+    a = subprocess.Popen(['cvlc', 'notif.mp3'])
+    time.sleep(3)
+    a.kill()
     return full_msg
 
-    # audio_link = "Audio"
-    # audio_param = {'audio': 'audio_link'}
-    # a = requests.get(url, params=audio_param)
 
-
-# if __name__ == "__main__":
-#     out = notif_alert()
+if __name__ == "__main__":
+    out = notif_alert()
