@@ -23,7 +23,7 @@ from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
 
 def notif_text():
-    plates = "ABCD123"
+    plates = "FORTNITE"
 
     sample_msg = 'Caution! Dangerous driver ahead. license plate:' + \
         plates + 'Be advised of swerving.'
