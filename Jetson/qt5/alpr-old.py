@@ -9,11 +9,16 @@ import sys
 
 # images are saved locally but can be accessed from website using wget
 #print("Enter a value from 1 to 26")
-def alpr(path):
+def alpr(num):
+
+  car_num = num
+
+  # parsing user input & concatenating it
+  pic_val = "sample_data/car"+car_num+".jpg"
 
   # Making CLI call to generate plate readings
   #os.system("alpr -c us " + pic_val)
-  proc = subprocess.Popen(["alpr -c us "+str(path)], stdout = subprocess.PIPE, shell = True)
+  proc = subprocess.Popen(["alpr -c us "+pic_val], stdout = subprocess.PIPE, shell = True)
   (out, err) = proc.communicate()
 
   use_val = str(out, 'utf-8')
