@@ -52,17 +52,28 @@ def tts():
 
 def main():
     tts_op = tts()
-    text = notif_text()
+    ntext = notif_text()
+    plates = "ABCD123"
 
-    E_P = "http://161.35.50.175:8000/reports/"
-    files = {'audio': open('output.mp3', 'rb')}
+    E_P = "http://161.35.50.175:8000/notifications/"
+    files = {"audio": open('output.mp3', 'rb')}
 
-    r = requests.post(E_P, files=files, data={})
+    r = requests.post(E_P,
+                      files=files,
+                      data={
+                          "recipient_unit_id": 12,
+                          "message_text": ntext,
+                          "license_plate": plates
+                          #   "audio": null
+                      }
+                      )
 
-    # print("HTTP " + str(r.status_code))
-    with open("output.mp3", "rb") as a_file:
-        file_dict = {"output.mp3": a_file}
-        response = requests.post(E_P, files)
+    print("HTTP " + str(r.status_code))
+    # with open("output.mp3", "rb") as a_file:
+    #     file_dict = {"output.mp3": a_file}
+    #     response = requests.post(E_P, files)
+
+    # print(r.json())
 
 
 if __name__ == "__main__":
