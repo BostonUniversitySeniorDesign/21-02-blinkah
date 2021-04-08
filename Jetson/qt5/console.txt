@@ -1,0 +1,15 @@
+
+Image 0
+0False
+Image 1
+0False
+Image 2
+0False
+Image 3
+0False
+Image 4
+-1False
+Image 5
+0False
+Image 6
+-1True

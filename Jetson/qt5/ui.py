@@ -4,9 +4,15 @@ from PyQt5 import QtCore, QtWidgets, QtGui
 # QApplication, QWidget, QPushButton, QAction, QLineEdit, QMessageBox, QMainWindow
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
+from datetime import datetime
+
+from multiprocessing import Process, Queue
+
 from alpr import alpr
 from notif_alert import notif_alert
-from datetime import datetime
+import cameracycle
+
+
 
 
 class MainWindow(QtWidgets.QWidget):
@@ -223,11 +229,11 @@ class NavPage(QtWidgets.QWidget):
         self.plate_conf = self.plate_conf()
         self.plate_conf.setParent(self)
 
-        self.next_btn = self.next_btn()
-        self.next_btn.setParent(self)
-        self.next_btn.pressed.connect(self.press_next)
-        self.next_btn.clicked.connect(self.click_next)
-        self.next_btn.released.connect(self.release_next)
+        #self.next_btn = self.next_btn()
+        #self.next_btn.setParent(self)
+        #self.next_btn.pressed.connect(self.press_next)
+        #self.next_btn.clicked.connect(self.click_next)
+        #self.next_btn.released.connect(self.release_next)
 
         self.alpr_btn = self.alpr_btn()
         self.alpr_btn.setParent(self)
@@ -300,9 +306,9 @@ class NavPage(QtWidgets.QWidget):
         return BkgImg
 
     def car_img(self):
-        CarImg = QtWidgets.QLabel('Hello')
+        CarImg = QtWidgets.QLabel('')
         CarImg.setGeometry(QtCore.QRect(74, 93, 473, 253))
-        CarImg.setObjectName("PlateImg")
+        CarImg.setObjectName("CarImg")
         # CarImg.setPixmap(pixmap)
 
         # CarImg.setText(graphic_text('graphics/vis.png'))
@@ -371,7 +377,7 @@ class NavPage(QtWidgets.QWidget):
         alpr_btn.setText('')
         alpr_btn.setIconSize(QtCore.QSize(128, 128))
         alpr_btn.setObjectName("alpr_btn")
-
+  
         return alpr_btn
 
     def go_btn(self):
@@ -413,11 +419,13 @@ class NavPage(QtWidgets.QWidget):
     def rep_text(self):
         rep_text = QtWidgets.QLabel('')
         # rep_text.setEnabled(True)
-        n_text = self.notifs()
-        rep_text.setFont(QFont('Arial', 14))
+        #n_text = self.notifs()
+        rep_text.setFont(QFont('Arial', 18))
+        rep_text.setStyleSheet("QLabel { color : yellow;}")
         # rep_text.setBold(True)
-        rep_text.setText(n_text)
-        rep_text.setGeometry(QtCore.QRect(400, 0, 500, 100))
+        rep_text.setText("")
+        rep_text.setGeometry(QtCore.QRect(400, 400, 500, 100))
+        rep_text.setWordWrap(True)
         # rep_text.setStyleSheet("QPushButton {\n"
         #                     "    background-color: rgba(255, 255, 255, 0);\n"
         #                      "    border: 0px;\n"
@@ -496,7 +504,34 @@ class NavPage(QtWidgets.QWidget):
         self.hud.setText(graphic_text('graphics/nav/nav_page_clicked'))
 
     def click_alpr(self):
-        self.runALPR(str(self.car_num))
+        self.hud.setText(graphic_text('graphics/nav/nav_page_read'))
+
+        cc_q = Queue()
+        cameracycle.cameracycle(cc_q)
+        #p = Process(target=cameracycle.pseudo_cameracycle, args=(cc_q,))
+        #p.start()
+        
+
+        #p.join()
+        
+        camera_list = []
+        while cc_q.qsize() != 0:
+          camera_list.append(cc_q.get())
+
+        
+
+        #print(camera_list)
+        #crop_path = camera_list[]
+        #plate, conf = run_alpr(crop_path)
+        #reporter.report(img_path, 69, plate, conf)
+        img_url = camera_list[0][0]
+        crop_url = camera_list[0][1]
+
+        self.roundImage(self.car_img, img_url)
+
+        
+        self.runALPR(img_url, crop_url)
+        #self.runALPR('/home/blinkah/Documents/21-02-blinkah/Jetson/qt5/sample_data/car11.jpg')
         if (self.plate_reading.text() == ''):
             self.plate_reading.setText('FAILURE')
             self.plate_conf.setText('00%')
@@ -521,7 +556,8 @@ class NavPage(QtWidgets.QWidget):
         icon.addPixmap(QtGui.QPixmap("graphics/logo_256x256.png"),
                        QtGui.QIcon.Normal, QtGui.QIcon.On),
         self.rep_btn.setIcon(icon)
-        # n_text = self.notifs()
+        n_text = self.notifs()
+        self.rep_text.setText(n_text)
         # notif_label = QtWidgets.QLabel(n_text)
         # notif_label.setWindowTitle("Notification!")
         # notif_label.setGeometry(QtCore.QRect(700, 40, 256, 256))
@@ -539,8 +575,8 @@ class NavPage(QtWidgets.QWidget):
     # Machine Learning #
     #                  #
 
-    def runALPR(self, num):
-        plates = alpr(num)
+    def runALPR(self, path, crop_path):
+        plates = alpr(crop_path)
         plate = plates[0].get('license_plate')
         conf = str(round(plates[0].get('confidence'))) + '%'
         self.plate_reading.setText(plate.lower())
