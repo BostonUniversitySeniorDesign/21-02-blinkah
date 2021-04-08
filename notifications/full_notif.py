@@ -25,7 +25,7 @@ from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 def notif_text():
     plates = "3vnj50"
 
-    sample_msg = 'Caution! Dangerous driver ahead. Be advised of swerving. License plate is'+plates
+    sample_msg = 'Caution! Dangerous driver ahead. Be advised of swerving. License plate is '+plates
 
     return sample_msg
 
