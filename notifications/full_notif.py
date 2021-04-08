@@ -23,10 +23,9 @@ from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
 
 def notif_text():
-    plates = "FORTNITE"
+    plates = "3vnj50"
 
-    sample_msg = 'Caution! Dangerous driver ahead. license plate:' + \
-        plates + 'Be advised of swerving.'
+    sample_msg = 'Caution! Dangerous driver ahead. Be advised of swerving. License plate is'+plates
 
     return sample_msg
 
@@ -54,15 +53,26 @@ def main():
     tts_op = tts()
     text = notif_text()
 
-    E_P = "http://161.35.50.175:8000/reports/"
+    E_P = "http://161.35.50.175:8000/notifications/"
     files = {'audio': open('output.mp3', 'rb')}
+    lp = '3VNJ50'
+    unit_id = 14
+
+    r = requests.post(E_P, files=files, data={
+                      'recipient_unit_id': unit_id, 'message_text': text, 'license_plate': lp})
+
+    print("first request: HTTP " + str(r.status_code))
+    with open("output.mp3", "rb") as a_file:
+        file_dict = {"output.mp3": a_file}
+        response = requests.post(E_P, files)
+        print("file request: HTTP" + str(response.status_code))
 
     r = requests.post(E_P, files=files, data={})
 
     # print("HTTP " + str(r.status_code))
-    with open("output.mp3", "rb") as a_file:
-        file_dict = {"output.mp3": a_file}
-        response = requests.post(E_P, files)
+    # with open("output.mp3", "rb") as a_file:
+    #     file_dict = {"output.mp3": a_file}
+    #     response = requests.post(E_P, files)
 
 
 if __name__ == "__main__":
