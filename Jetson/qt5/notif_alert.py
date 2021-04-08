@@ -16,13 +16,14 @@ def notif_alert():
 
     # Get request to get JSON data of notification message & license plate
     r = requests.get(url, params=payload)
-    # print(r.text)
+    print(r.text)
 
     p_text = r.text
     p_tfin = json.loads(p_text)
-    lp_msg3 = (p_tfin[2]['message_text'])
-    lp_lp3 = (p_tfin[2]['license_plate'])
-    lp_audio3 = (p_tfin[2]['audio'])
+    print(p_tfin)
+    lp_msg3 = (p_tfin[4]['message_text'])
+    lp_lp3 = (p_tfin[4]['license_plate'])
+    lp_audio3 = (p_tfin[4]['audio'])
 
     full_msg = (lp_msg3 + "!\nLicense plate is: " + lp_lp3)
     print(full_msg)
