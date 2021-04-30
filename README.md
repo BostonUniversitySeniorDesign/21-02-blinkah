@@ -1,5 +1,7 @@
 # BLINKAH User Manual
 
+#### Boston University Computer Engineering Senior Design Project 2020-2021
+
 Team Members:
 
 Raghurama Bukkarayasamudram rbukka@bu.edu
@@ -8,7 +10,7 @@ William Pine wpine@bu.edu
 Ayush Upneja upneja@bu.edu
 Parker Van Roy parkervr@bu.edu
 
-#### Boston University Computer Engineering Senior Design Project 2020-2021
+
 
 
 
