@@ -5,9 +5,13 @@
 Team Members:
 
 Raghurama Bukkarayasamudram rbukka@bu.edu
+
 Ritam Das ritamdas@bu.edu
+
 William Pine wpine@bu.edu
+
 Ayush Upneja upneja@bu.edu
+
 Parker Van Roy parkervr@bu.edu
 
 
