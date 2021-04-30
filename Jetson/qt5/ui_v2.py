@@ -322,7 +322,7 @@ class NavPage(QtWidgets.QWidget):
     def press_go(self):
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(
-            "./graphics/chevron_depressed.png"), QtGui.QIcon.Normal, QtGui.QIcon.On),
+            "./graphics/B.png"), QtGui.QIcon.Normal, QtGui.QIcon.On),
         self.go_btn.setIcon(icon)
 
     def click_go(self):
