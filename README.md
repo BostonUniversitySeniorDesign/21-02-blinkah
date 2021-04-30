@@ -29,6 +29,14 @@ What is “BLINKAH?” BLINKAH is a behavior-based insurance system that uses Co
 4. Other 
 • Car: 1998 Volvo V70 Cross-Country Station-wagon (AKA BLINKAH Mo- bile Transporter)
 
+
+## Head Unit Setup Instruction
+The jetson nano and its components will be mounted to the dash of the BLINKAH mobile, making sure that the camera has an optimal viewing angle for roads and vehicles. Power the Jetson and run the UI application.
+
+## OpenALPR Setup Instructions
+We decided to use OpenALPR, an open-source Automatic License Plate Recognition library software to handle the bulk of our computer vision and machine learning processes. It is based in C++ with dependencies available in python3, so we are using OpenCV as well as tesseract to handle the translation of license plates to text.
+Since OpenALPR is based on windows and ubuntu linux, we decided to set it up on an ubuntu OS. We simply install the required prerequisites and the actual OpenALPR from the github, set up a build directory, and compile an environment. Once that is set up, we can compile the library, and install the binaries to the local machine and test. https://github.com/openalpr/openalpr/wiki/Compilation-instructions-(Ubuntu-Linux)
+
 ## Frontend Run Instructions
 
 Visit https://BLINKAH.net
@@ -44,10 +52,12 @@ python manage.py runserver 0.0.0.0:8000
 ```
 
 ## Server Setup Instructions
-N/A
+We will be hosting the Django server that needs to enable ssh connectivity in order for the head unit to communicate with the backend.
+• Create a virtual environment
+• Run python manage.py runserver @ip address:PORT
 
-## OpenALPR Setup Instructions
-We decided to use OpenALPR, an open-source Automatic License Plate Recognition library software to handle the bulk of our computer vision and machine learning processes. It is based in C++ with dependencies available in python3, so we are using OpenCV as well as tesseract to handle the translation of license plates to text.
-Since OpenALPR is based on windows and ubuntu linux, we decided to set it up on an ubuntu OS. We simply install the required prerequisites and the actual OpenALPR from the github, set up a build directory, and compile an environment. Once that is set up, we can compile the library, and install the binaries to the local machine and test. https://github.com/openalpr/openalpr/wiki/Compilation-instructions-(Ubuntu-Linux)
+
+
+
 
 
