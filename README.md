@@ -7,9 +7,7 @@ BLINKAH is a behavior-based insurance system that uses Computer Vision to analyz
 
 ## Frontend Run Instructions
 
-- Create Firebase Project
-- Register app with Firebase
-- Add Firebase SDKs and initialize Firebase within web app
+Visit https://BLINKAH.net
 
 ## Backend Run Instructions
 Steps to run Django backend server in debug mode (requires Python 3, PIP, and virtualenv):
