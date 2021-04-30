@@ -1,137 +1,228 @@
-# BLINKAH
-### Parker Van Roy, Ayush Upneja, William Pine, Ritam Das, Raghurama Bukkarayasamudram
+# BLINKAH User Manual
 
-BLINKAH is a behavior-based insurance system that uses Computer Vision to analyze other drivers on the road as well as providing directions and safety notifications, as well as delivers a data analysis dashboard for enterprise insurance customers.
+Team Members:
+
+Raghurama Bukkarayasamudram rbukka@bu.edu
+Ritam Das ritamdas@bu.edu
+William Pine wpine@bu.edu
+Ayush Upneja upneja@bu.edu
+Parker Van Roy parkervr@bu.edu
 
 #### Boston University Computer Engineering Senior Design Project 2020-2021
 
-## Frontend Run Instructions
 
-- Create Firebase Project
-- Register app with Firebase
-- Add Firebase SDKs and initialize Firebase within web app
 
-## Backend Run Instructions
-Steps to run Django backend server in debug mode (requires Python 3, PIP, and virtualenv):
+## Executive Summary
 
-```
-cd backend
-source env/bin/activate
-pip install -r requirements.txt
-python manage.py runserver 0.0.0.0:8000
-```
-
-## Server Setup Instructions
-N/A
-
-## OpenALPR Setup Instructions
-We decided to use OpenALPR, an open-source Automatic License Plate Recognition library software to handle the bulk of our computer vision and machine learning processes. It is based in C++ with dependencies available in python3, so we are using OpenCV as well as tesseract to handle the translation of license plates to text.
-Since OpenALPR is based on windows and ubuntu linux, we decided to set it up on an ubuntu OS. We simply install the required prerequisites and the actual OpenALPR from the github, set up a build directory, and compile an environment. Once that is set up, we can compile the library, and install the binaries to the local machine and test. https://github.com/openalpr/openalpr/wiki/Compilation-instructions-(Ubuntu-Linux)
-
+WE ARE BLINKAH: Revolutionizing the Road
+	
+BLINKAH is a leader in lateral thinking with our disruptive behavior-based-insurance-as-a-service (BBI-AAS) platform that engineers solutions to urgent pain points in our society. We enhance road safety and eliminate statistically proven policing biases. Leveraging proprietary edge computing machine learning algorithms in an IoT system with 4G LTE telecommunications, BLINKAH Dashcam Head Units are able to identify erratic drivers in real time, aggregate contextual information, and send reports to the BLINKAH Cloud. Using these key performance indicators, the BLINKAH Cloud conducts deep behavioral analysis on drivers in a robust big data computing environment and distributes these findings to insurance companies, emergency services, and other relevant entities through a REST API and data visualization tool known as the BLINKAH Computational Frontend (BCF). BLINKAH makes a social impact by incentivizing safe driving and solving non-emergency concerns through appropriate organizations, thus, reducing the risk of racial profiling that results in rampant police brutality and reinforcing road safety. “USE YAH BLINKAH!”
 
 ## Introduction
-In this section we shall introduce the motivation for the introduction of BLINKAH. The supporting evidence presented henceforth will be with reference to entries 1&2 in the bibliography
 
-### Need
+Racial profiling and targeting in the form of police traffic stops has been a persistent theme in American culture. The events of summer 2020 regarding the #BlackLivesMatter movement brought such grim issues to a national spotlight and sparked a much more rapid change in public perception of those who are enforcing road safety. A study published by Stanford in May 2020 analyzed a dataset of 100 million traffic stops conducted across the country, finding that “black drivers were less likely to be stopped after sunset, when a ‘veil of darkness’ masks one’s race, suggesting bias in stop decisions.” This bias is important to contextualize the horrific statistics and videos that have surfaced over the last few decades of police overreach and abuse with regard to traffic stops of racial minorities.
 
-With the current state of society in the context of the the #BlackLivesMatter movement, it has become apparent that racial minorities are facing incredible hardship. One of the most prominent forms of profiling and targeting comes in the form of traffic stops performed by the police. 
+In the same study, the data showed that the bar for searching black and Latino drivers was much lower, as search rates were 4.3% for black drivers, 4.1% for Hispanic drivers, and 1.9% for white drivers. The threshold test calculates that the bar for searching black (5.0%) and Hispanic drivers (4.6%) is much lower than for white drivers (10.0%). This suggests significant amounts of bias and prejudice in the police force, as such a severe difference in threshold amongst all drivers certainly depicts a dystopian reality in our society.
 
-A study published in Nature in May 2020 analyzed a dataset of 100 million traffic stops conducted across the country, finding that “black drivers were less likely to be stopped after sunset, when a ‘veil of darkness’ masks one’s race, suggesting bias in stop decisions.” This bias is important to contextualize the horrific statistics and videos that have surfaced over the last few decades of police overreach and abuse with regard to traffic stops of racial minorities. 
+In the ever-expanding fields of Machine Learning and Artificial Intelligence, there is no reason a simple outdated registration, broken taillight, or any minor infraction should result in police brutality. This is where BLINKAH plans to step in.
 
-In the same study, the data showed that the bar for searching black and Latino drivers was much lower, as search rates were 4.3% for black drivers, 41.% for Hispanic drivers, and 1.9% for white drivers. The threshold test calculates that the bar for searching black (5.0%) and Hispanic drivers (4.6%) is much lower than for white drivers (10.0%). The analysis that this is unjust is substantiated by the fact that the bar is so low that the difference in the contraband possession rate between white and Latino drivers is a whopping 10%. 
+Our goal is to incentivize safe driving and solve non-emergency concerns through the appropriate organizations, thus, reducing the risk of racial profiling and reinforcing road safety.
 
-In a world where Machine Learning and Artificial Intelligence are expanding everyday, there is no need for a simple outdated registration, or broken taillight should result in police brutality on the highway. 
+In terms of hardware, there are BLINKAH head units composed of a dashcam, speaker, and touchscreen all running on the Nvidia Jetson Nano. These will be the edge computing dash cameras that will leverage computer vision and proprietary algorithms to analyze and report other vehicles on the road. 
+The BLINKAH head units utilize 4G communication to the BLINKAH Cloud + Computational Frontend (BCF), where we analyze the aggregated data from our head units and keep records of vehicle/driver behavior. This enables BLINKAH to create reports of erratic drivers based on a variety of unsafe driving metrics and report such information to insurance providers and other drivers in the vicinity. 
 
-Through Blinkah, we provide mechanisms through which non emergency concerns can be solved directly through proper entities (insurance, RMV, etc), and therefore reducing the risk of racial profiling and targeting, resulting in rampant police brutality. We additionally solve for the large rate of unsafe driving habits which cause accidents in the country, severely contributing to loss of human life, by notifying nearby drivers of any unsafe activity near them.
+Through BLINKAH, we provide mechanisms that can solve non emergency concerns directly through proper entities (insurance, DMV, etc) without the need to involve emergency/police services, and therefore reduce the risk of racial profiling and targeting, which leads to police brutality. We additionally solve for the large rate of unsafe driving habits which severely contribute to vehicle fatality rates. This is done by detecting erratic drivers in the vicinity of the user and notifying the user and other nearby drivers of any unsafe activity near them. The intention is to have a large network of head units on the road all monitoring each other to recreate road safety enforcement without any personal bias. Ultimately, BLINKAH eliminates irrelevant entities in traffic stops and reinforces safe driving habits.
 
-### Problem Statement
+Following this introduction to BLINKAH, you will find:
 
-There are two major concerns with the current system in society. Firstly, according to the CDC road crashes are the leading cause of death in the country, and therefore the status quo is ineffective at deterring unsafe driving habits. Secondly, racial profiling and targeting have spiraled completely out of control, resulting in major police brutality at minor traffic stops which could be solved directly through the relevant entities themselves. Thus we ask the question, how can we create a fairer system for road safety?
-
-We solve this problem with three major deliverables.
-
-The first deliverable is the Blinkah Hardware Unit. This unit contains a camera, and integrates with your phone to get your latitude and longitude for notification purposes. This hardware unit acts as a dashcam, constantly recording, compressing, and uploading footage to the cloud. It also has a display attached to the head unit, which has both audio and video notifications for nearby unsafe drivers.
-
-The second deliverable is the software algorithm. This algorithm is completed completely in the cloud, in which we process all of the data using computer vision algorithms to analyze the video source. We aim to have > 50% erratic driver identification accuracy, in < 5 minutes of processing time.
-
-The final deliverable is the dashboard and backend API. After the completion of our software algorithm and a hit on any traffic violation or unsafe driving, we have multiple API endpoints to send the relevant traffic violation or notification of nearby unsafe driving to relevant entities. This allows for us to directly communicate with insurance companies, State RMVs, or even police. We also securely store database driver history records.
-
-## Product
-In this section, we will make clear the goals and general design of BLINKAH as a product in order to facilitate the engineering requirements.
-
-### Deliverables
-We solve the paradoxical road safety problem with the BLINKAH project, which consists of three major deliverables: The first deliverable is the BLINKAH Hardware Unit. This unit contains a camera, and integrates with your phone to get your latitude and longitude for notification purposes. This hardware unit acts as a dashboard camera, constantly recording, compressing, and uploading footage to the cloud. It also has a display attached to the head unit, which has both audio and video notifications for nearby unsafe drivers. 
-
-The second deliverable is the software algorithm. This algorithm is completed completely in the cloud, in which we process all of the data using computer vision algorithms to analyze the video source. We aim to have > 50% erratic driver identification accuracy, in < 5 minutes of processing time. 
-
-The final deliverable is the dashboard and backend API. After the completion of our software algorithm and a hit on any traffic violation or unsafe driving, we have multiple API endpoints to send the relevant traffic violation or notification of nearby unsafe driving to relevant entities. This allows for us to directly communicate with insurance companies, State RMVs, or even police. We also securely store database driver history records.
-
-### Visualization
-Fig. 1. A drawing of the BLINKAH unit in a vehicle. Note the BLINKAH head unit in yellow and the proprietary dashboard camera in red. 
-
-Picture this: you are driving and approach a busy intersection. From your left, a car runs the red light and cuts you off within centimeters! You honk your horn to alert other drivers in the area to beware, but the car is out of sight in seconds, weaving traffic. A few minutes later, you pass a car accident on the side of the road involving the very same vehicle. 
-
-This is an easily avoidable situation given modern technology, and it doesn’t require everyone to use a self-driving car! With BLINKAH, everyone is made safer on the road. Here’s the same situation played out with BLINKAH: 
-
-You are driving and approach a busy intersection. As you approach, you receive a notification from your BLINKAH device warning you of an erratic, dangerous driver approaching from your left, so you slow down at the intersection. From your left, a car runs the red light! Your BLINKAH unit then sends data to the BLINKAH cloud and alerts other drivers up the road of the danger. A few minutes later, you receive a notification that you have recieved a bonus for helping to report dangerous drivers on the road!
-
-### Competitors
-
-Creating an effective solution to ineffective policing, limiting traffic stops, and disincentivizing reckless driving are not new ideas; however, there are no viable remedies out there addressing all of these issues at once like BLINKAH intends to. BLINKAH falls into the driver safety/traffic monitoring industry where there are no shortage of companies but rather a shortage of innovative solutions addressing the real problems faced by many in society. Waze and police radar manufacturers attempt to alert you of police locations, but they have been proven to be highly inaccurate and unreliable. Tesla’s autonomous driving system does an excellent job of using computer vision in realtime to determine potential safety threats and direct the vehicle. However, they lack the proprietary algorithm we will be using to detect erratic drivers. Several insurance companies offer safe driver discounts to incentivize safe driving, but that doesn’t enforce safe driving nor address the issue of ineffective policing. Many cars come with a built-in safety service such as OnStar, but this addresses safety concerns after you have been in an accident. BLINKAH is more of a preventative measure rather than reactive feature. These are all relevant technologies in driver safety, but the most directly competitive brands for BLINKAH are: Telematics, Nexar, and GoTrueMotion. 
-
-Telematics technology determines your driving pattern using GPS, accelerometers, gyroscopes, and more. They are one of our main competitors since their goal is to improve driver safety by incentivizing drivers to save on their insurance premiums. Geotab is one such company utilizing this technology along with Internet of Things and the Cloud. Geotab aims to innovate in the areas of: traffic prediction, performance benchmarking, and general safety. This information is stored in the cloud and accessed by mobile or desktop devices in the form of reports. Our main differentiating feature is that we do not rely on a telematics based technology, and instead depend on a real-time dashcam that analyzes driving patterns. While Geotabs technology allows users and companies to get very in-depth information about their driving, it does not have a major impact real-time aside from alerting on nearby accidents of police. 
-
-Gotrue motion is another potential competitor that relies on using phone sensor data to score your driving. Using the phone is a convenient way to get rough estimates, but real, in-depth traffic analysis requires a more real Nexar is another company that produces dash-cams providing real time traffic and accident information through an app. This follows the WAZE style of reporting traffic data, but claims to upload information anonymously. While similar to our concept, its focus on purely traffic makes it more of an add on for ride-sharing with some emphasis on driver safety. BLINKAH applies our machine learning algorithm in real time to observe OTHER drivers on the road to determine if they are erratic allowing you to know who to avoid. Additionally, BLINKAH aims to avoid traffic-related stops by informing drivers of basic information. BLINKAH can go the route of targeting insurance companies, car dealerships, or possibly state services.
-
-
-## Engineering Requirements
-In this section, we will dive deeper in depth into our system in designing BLINKAH for senior design and beyond. The design details, system overview, and general timeline are described.
-
-### Constraints
-After reviewing the possible hardware modules and peripherals against our objectives and constraints, we identified the following hardware configuration to suit our needs: 
-1) The hardware prototype will utilize the Nvidia Jetson Nano board, running Linux, for on-board interfacing and processing of camera data. 
-2) The hardware prototype will utilize a single camera, recording footage at a minimum of 720p resolution and 15 frames per second. 
-3) The camera will interface with the Jetson Nano via USB connection. Although a CSI bus connection would result in better performance, its distance limitation of less than 10 cm would make it incompatible with our project. 
-4) The camera’s enclosure or mounting must be able to dampen vehicle-produced vibrations to some degree, as jitter may interfere with data processing. 
-5) The Jetson Nano will interface with a color LCD display of at least 480p resolution, which is able to display text and images, and a speaker which is able to generate clearly audible alerts produced by the on-board software. 
-
-Regarding the on-board software, the following requirements were identified, in order for the project to meet its objectives: 
-1) The computer vision algorithm must be able to identify at least 50% of clearly visible erratic drivers in the camera’s field of view. 
-2) The computer vision algorithm must not take longer than 300 seconds in returning a result after initial data acquisition. 
-3) The on-board software must be able to successfully uplink results from the algorithm to a cloud server, receiving positive acknowledgement of transmission. 
-4) The on-board software must be able to listen for and receive incoming data from the cloud server. 
-5) The on-board software must be able to parse incoming data into alerts and notifications to be presented to the driver in a non-distracting manner. 
-
-Regarding the cloud software and backend API, the following requirements were identified, in order for the project to meet its objectives: 
-1) The server software must be able to listen for and receive uplinked data from several different ground units. 
-2) The server software must be able to classify incoming data, store it, and relay it to the relevant entities, such as insurance providers or the local department of motor vehicles. 
-3) The server software must be able to identify other users in the vicinity of a possible hazard which was identified through uplinked data. 
-4) The server software must be able to send alerts and notifications to users in the vicinity of a possible hazard, and receive positive acknowledgement of transmission. 
-5) The server software must be able to present its data and system status through a protected web-based dashboard
-
-### System Overview
-
-Fig. 2. Initial System Overview Diagram Displayed in figure 2 is an overview of the BLINKAH system. Here are some details: 
-- The BLINKAH Head Unit development model is an nVidia Jetson with capabilities to communicate over bluetooth with a user cellphone, has a touchscreen display for directions and notifications, has audio notifications, and connects to a proprietary dashboard camera. It communicates over cellular data to the BLINKAH Cloud. 
-- The BLINKAH Cloud is a cluster of servers that operate to create a seamless API-based system for other components. The intent is to deliver BLINKAH Cloud using OpenShift for scalability. The operations include Computer Vision Servers that operate on individual cameras, Road Analysis Servers that render what occurs on the roads, multiple databases to store data of different types, Distribution Servers to distribute output information, a Directions Server to serve directions to users, and a Notification Server to distribute user notifications. 
-- The BLINKAH Dashboard is a data visualization tool and API endpoint for accessing the compiled information from the BLINKAH Cloud. The intent is to deliver data analysis to insurance companies, notify emergency services when relevant, and report minor vehicle infractions such as broken tail lights to local government, bypassing the police.
-
-### Timeline
-
-Fig. 3. Timeline Checkpoints Displayed in figure 3 is the main completion checkpoints of the BLINKAH project and a ray displaying the relative style of production. Here is some more detail: 
-- Proposal: This phase has been completed. It involved the initial ideation of the project and ended with the project proposal submission. 
-- Design: This phase is completed with the submission of this paper. It consisted of base design questions, an Informal Design Review, a PDRR presentation, and a ‘Shark Tank’ session with alumni. 
- - Device: The IoT device creation is a priority in this project. Although it will still be subject to change, completing the IoT Hardware of the BLINKAH project is a priority as it will allow for more fluid work in an agile, software-based environment. 
- - Dashboard: The software sided Dashboard component of this project will be the final phase. It is an API and data visualization tool for enterprise level use.
- - Note that the BLINKAH Cloud has not been mentioned; this is because as we progress towards an agile workflow it will be a necessity to have completed in minor components throughout other parts of the project.
- - The goal is to progressively progress form a Waterfall engineering design style to an agile environment consisting of software sprints.
+A system overview and installation detailing the technical installation, setup, and support instructions
+Operational Modes and Safety Issues
+An in-depth description of the technical components of the product
+Head Unit
+BLINKAH Cloud + Computational Frontend
+Engineering standards relevant to BLINKAH implementation
+Cost Breakdown & Expense Sheet
+Appendix
+Specifications
+The BLINKAH Team
+ 
 
 
 
-## Security
 
-See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
 
-## License
 
-This library is licensed under the MIT-0 License. See the LICENSE file.
+
+
+## System Overview and Installation
+BLINKAH is a behavior-based-insurance as-a-service platform. The BLINKAH system consists of two user-facing components - the BLINKAH Head Unit, and the BLINKAH Computational Frontend. These components have separate users. While the relation between these two users is determined as a business need, they do not have technical overlap and exist as independent operators. The BLINKAH system has been streamlined in deployment and operation for all users with a simplified user experience.
+ 
+### Overview Block Diagram
+
+Systemdiagram.png 
+DESCRIPTION
+
+### User Interface
+
+The user interface is twofold. The first component of the user interface is the BLINKAH Head Unit. 
+
+The Head Unit interface is simple - there is a landing page and a camera feed page. While the BLINKAH operates automatically, the display can be changed to activate a live feed of the computer vision analysis. Reports will display a symbol on the screen and play audio over a speaker so as to not distract the driver. A small clock is displayed on the BLINKAH Head Unit for user convenience.
+
+
+
+
+The second component of the user interface is the BLINKAH Computational Frontend. This user interface is deployed on Firebase and offers secure login for BLINKAH Admins. On this dashboard, admins can look up histories associated with specific license plates in addition to visualizing report data on a heatmap. 
+
+Admin Dashboard with license plate lookup, generated statistics, and navbar
+
+
+Heatmap visualization of generated Boston incident data
+
+
+Splash page featuring BCF logo and OAuth
+
+### Physical Description
+
+
+
+		Head Unit & Dashcam vehicle mockup
+
+			1998 Volvo XC70 Testing Setup for Alpha Unit BLINKAH0 
+### Installation, setup, and support
+
+BLINKAH Head Unit
+
+
+Displayed is a set of Dash Camera Electrical hookup components. These kits provide 5V 2A DC power. A kit similar to this is expected to be prepared by the user for the BLINKAH Head Unit installation. 
+
+assembled_mount.png
+Displayed is an assembled version of the BLINKAH Head Unit Mount that should be installed in user vehicles, showing successful operation of basic object detection on the screen.
+
+
+3d_components.png
+Displayed is a collection of the 3D-printed components involved in the mounting of the BLINKAH Head Unit for the Beta version. These components are printed in ABS Plastic.
+
+
+For installation purposes, it is assumed that the user has prepared a sufficient Dash Cam Hardwire in their vehicle as pictured in (IMG ABOVE). It is also assumed that the BLINKAH Head Unit is delivered to recipients completely assembled and simply needs to be mounted with 3M Mounting Tape or with the provided mounting holes + screws, however, if this is not the case, the user will be provided with sufficient 10x2.5M screws and the cables required to connect internal peripherals to the Jetson Nano.
+
+
+
+## BLINKAH Computational Frontend
+Visit https://BLINKAH.net and log in with an SSO option!
+
+
+## Operation of the Project 
+
+### Operating Mode 1: Normal Operation
+
+In a normal operating mode, a user will interact with the BLINKAH Head Unit as follows:
+The user turns the device on, and the Head Unit automatically analyzes vehicles in front of the user’s car
+The user will drive their vehicle and the BLINKAH Head Unit will scan automatically
+If an erratic driver is recognized, the device will upload a full report with relevant details to the BLINKAH Cloud, in addition to supporting evidence
+The driver will receive a visual and audio notification if there is an erratic driver nearby through the BLINKAH Head Unit
+
+
+### Operating Mode 2: Abnormal Operations
+Abnormal operations include the Jetson Nano crashing, power outage due to external automobile electric failure, and mechanical failure in any circumstance.
+
+To exit this state of abnormal operations, the user can simply restart the device, and ensure that all connections are attached properly before enabling the erratic driver detection.
+
+### Safety Issues
+
+It is important to not get distracted by the notifications or the display screen. Users should not be driving with anything other than the given UI on the head unit. Additionally, the current installation is quite rudimentary, and as a result any mechanical failure involving components getting disconnected should be swiftly resolved by pulling over, and resetting the device. Users must also pay attention to not overdraw power and make sure that any converters are deemed safe for the automobile.
+
+## Technical Background
+BLINKAH Head Unit
+
+The BLINKAH Head Units are driven by Nvidia Jetson Nano 4G Developer Boards running JetPack 4.5.1 (A fork of Ubuntu 18.04). The Head Unit uses Python 3.6 and QtPy5 to run it’s frontend software, which is displayed on a 1024x600 7” HDMI/USB LCD Touchscreen. The Head Unit computer vision module involves MobileNet v2 for object detection, OpenALPR for license plate optical character recognition, and proprietary algorithms for lane detection and composite erratic driver detection. Video is captured from a  8MP IMX219-160 CSI Camera with GStream and the JetCam library, and are buffered in jpeg format in the filesystem. CVLC and a USB Speaker are used to play audio notifications. A Hologram 4G modem and sim card are used for telecommunication, and a GPS module is attached for location tracking. The software is containerized with Buildah and deployed in Podman.
+
+BLINKAH Cloud
+
+The BLINKAH Cloud, in its current form, consists of a single DigitalOcean droplet server running Ubuntu 20.04. On top of this Ubuntu installation, we are running our backend server code using Python, Django, and the Django REST framework, wrapped in a Python virtual environment for easy dependency management. The Django backend code is responsible for defining the database model schema and exposing REST endpoints to interact with the database, including operations such as reading, adding, modifying, and destroying data, as well as filtering. The database itself is an SQLite database for prototyping purposes, with future intentions to upgrade to PostgreSQL if scaling demands necessitate it. The exposed REST endpoints provided by the Django backend are used by both the individual head units, for submitting reports and polling for notifications, and by the BLINKAH computational frontend.
+
+BLINKAH Computational Frontend
+
+
+
+
+## Relevant Engineering Standards
+
+Some of the relevant engineering standards that BLINKAH utilizes include REST API’s, SSO/OAuth authentication, HTML syntax, the JPEG image format, and the JSON data format.
+
+BLINKAH Head Unit Standards
+
+For the head unit hardware, it utilizes the USB, CSI, and HDMI standards for communicating with other hardware components, including the speaker, 4G modem, camera, and touchscreen display. The JPEG image format is used to capture frames from the head unit’s dashcam, and feed it through our machine learning pipeline, which detects individual vehicles, crops them, and sends a report to the server with a cropped JPEG.
+
+BLINKAH Cloud (Backend & Frontend Standards)
+
+The REST API standard is used for communication between the Jetson head units and Blinkah Computational frontend, and with the cloud backend. SSO/OAuth authentication is used for signing into the computational frontend. HTML syntax is obviously used in the frontend, and JSON is used for sending and receiving data via the REST standard. The MP3 audio storage format is utilized for generating audio notifications via IBM Watson on the backend server, and downloading and playing them back on the individual head units Containers were built in an OCI-compliant standard. Furthermore, the Python 3 and JavaScript ECMA language standards were used in developing the software.
+
+
+	In terms of Engineering Management, the project is developed with an upstream development process with Git. Conventional open source pull request code review standards and lgtm messages are used to create upstream builds that are merged based on agile weekly goals.
+## Cost Breakdown
+
+
+Per-Unit Project Costs for Production of Beta Version (Next Unit after Prototype)
+Item
+Description
+Unit Cost
+1
+ Jetson Nano 4G + SD Card
+ 115
+2
+ Hologram 4G Modem / SIM / GPS
+80 
+3
+ Camera + Lens 
+ 25
+4
+ 7” LCD Touchscreen + Speaker
+65
+5
+ Casing + Mounting
+ 10
+Beta Version-Per-Unit Total Cost
+295
+
+
+
+
+## Appendices
+
+Appendix A - Specifications
+
+In spec sheet
+
+Appendix B - Team Information
+
+Raghurama Bukkarayasamudram
+Developed the BLINKAH Cloud Notifications Service and REST API with IBM Watson Text-to-Speech and integrated it in the BLINKAH Head Unit. Created the Jetson Nano Speaker Framework. Designed the BLINKAH Head Unit Frontend. Assisted in working on the lane detection and erratic driver detection algorithms.
+
+Ritam Das
+Designed and developed the BLINKAH Computational Frontend primarily. Assisted on backend REST API and endpoints as well as object, lane, and erratic driver detection algorithms.
+
+William Pine
+Worked primarily on the BLINKAH Cloud’s backend REST API and endpoints. Also assisted with work on lane detection and erratic driver detection code which runs directly on the Jetson head unit.
+
+Ayush Upneja
+Worked primarily on the BLINKAH Computational Frontend and the BLINKAH Cloud. Will be working as a Software Engineer for Citrix Systems after graduation.
+
+Parker Van Roy
+Worked on the BLINKAH Cloud Rest API and Python Services and BLINKAH Head Unit. Wrote the Head Unit QtPy5 Application, proprietary lane detection algorithm, and developed the erratic driver detection code. Compiled and integrated various services on the Jetson Nano.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
