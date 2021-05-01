@@ -82,7 +82,7 @@ class NavPage(QtWidgets.QWidget):
 
     def time_box(self):
         TimeBox = QtWidgets.QLabel('')
-        TimeBox.setGeometry(QtCore.QRect(30, 500, 350, 100))
+        TimeBox.setGeometry(QtCore.QRect(100, 475, 350, 100))
         TimeBox.setObjectName("TimeBox")
         pixmap = QtGui.QPixmap('graphics/timebox_trans.png')
         pixmap = pixmap.scaled(350, 100)
@@ -92,7 +92,7 @@ class NavPage(QtWidgets.QWidget):
     def time(self):
         Time = QtWidgets.QLabel('')
 
-        Time.setGeometry(QtCore.QRect(112, 500, 350, 100))
+        Time.setGeometry(QtCore.QRect(188, 475, 360, 100))
         font = QtGui.QFont()
         font.setFamily("Ani")
         font.setPointSize(32)
@@ -195,7 +195,7 @@ class NavPage(QtWidgets.QWidget):
     def go_btn(self):
         go_btn = QtWidgets.QPushButton('')
         go_btn.setEnabled(True)
-        go_btn.setGeometry(QtCore.QRect(800, 450, 200, 200))
+        go_btn.setGeometry(QtCore.QRect(780, 400, 200, 200))
         go_btn.setStyleSheet("QPushButton {\n"
                              "    background-color: rgba(255, 255, 255, 0);\n"
                              "    border: 0px;\n"
@@ -232,6 +232,12 @@ class NavPage(QtWidgets.QWidget):
         rep_text = QtWidgets.QLabel('')
         # rep_text.setEnabled(True)
         # n_text = self.notifs()
+
+        # if n_text.length > 0:
+        #     icon = QtGui.QIcon()
+        #     icon.addPixmap(QtGui.QPixmap("./graphics/error.png"),
+        #         QtGui.QIcon.Normal, QtGui.QIcon.On)
+
         rep_text.setFont(QFont('Arial', 14))
         # rep_text.setBold(True)
         # rep_text.setText(n_text)
