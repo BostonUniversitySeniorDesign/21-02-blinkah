@@ -345,13 +345,13 @@ class NavPage(QtWidgets.QWidget):
         icon.addPixmap(QtGui.QPixmap("graphics/logo_256x256.png"),
                        QtGui.QIcon.Normal, QtGui.QIcon.On),
         self.rep_btn.setIcon(icon)
-        # n_text = self.notifs()
-        # notif_label = QtWidgets.QLabel(n_text)
-        # notif_label.setWindowTitle("Notification!")
-        # notif_label.setGeometry(QtCore.QRect(700, 40, 256, 256))
-        # notif_label.show()
-        # BkgImg = QtWidgets.QLabel('')
-        # BkgImg.setGeometry(QtCore.QRect(0, 0, 1024, 600))
+        n_text = self.notifs()
+        notif_label = QtWidgets.QLabel(n_text)
+        notif_label.setWindowTitle("Notification!")
+        notif_label.setGeometry(QtCore.QRect(700, 40, 256, 256))
+        notif_label.show()
+        BkgImg = QtWidgets.QLabel('')
+        BkgImg.setGeometry(QtCore.QRect(0, 0, 1024, 600))
 
     def release_rep(self):
         icon = QtGui.QIcon()
@@ -376,9 +376,9 @@ class NavPage(QtWidgets.QWidget):
     # Audio & Text Notifications #
     #                            #
 
-    # def notifs(self):
-    #     n_text = notif_alert()
-    #     return n_text
+    def notifs(self):
+        n_text = notif_alert()
+        return n_text
 
 
 class Controller:
