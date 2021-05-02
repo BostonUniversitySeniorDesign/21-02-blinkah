@@ -507,7 +507,8 @@ class NavPage(QtWidgets.QWidget):
         self.hud.setText(graphic_text('graphics/nav/nav_page_read'))
 
         cc_q = Queue()
-        cameracycle.cameracycle(cc_q)
+        #cameracycle.cameracycle(cc_q)
+        cameracycle.pseudo_cameracycle(cc_q)
         #p = Process(target=cameracycle.pseudo_cameracycle, args=(cc_q,))
         #p.start()
         

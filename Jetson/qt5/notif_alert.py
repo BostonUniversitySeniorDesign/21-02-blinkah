@@ -17,20 +17,21 @@ def notif_alert():
     r = requests.get(url, params=payload)
     p_text = r.text
     p_tfin = json.loads(p_text)
-    lp_msg3 = (p_tfin[2]['message_text'])
-    lp_lp3 = (p_tfin[2]['license_plate'])
-    lp_audio3 = (p_tfin[2]['audio'])
+    lp_msg3 = (p_tfin[5]['message_text'])
+    lp_lp3 = (p_tfin[5]['license_plate'])
+    lp_audio3 = (p_tfin[5]['audio'])
 
-    full_msg = (lp_msg3)
+    full_msg = (lp_msg3)  # "!\nLicense plate is: " + lp_lp3)
     print(full_msg)
 
     urllib.request.urlretrieve(lp_audio3, 'notif.mp3')
-    # r2 = requests.get(lp_audio3, allow_redirects=True)
-    # open('notif2.mp3', 'wb').write(r2.content)
+    r2 = requests.get(lp_audio3, allow_redirects=True)
+    open('notif2.mp3', 'wb').write(r2.content)
     a = subprocess.Popen(['cvlc', 'notif.mp3'])
-    #a.kill()
+    # time.sleep(3)
+    # a.kill()
     return full_msg
 
 
-if __name__ == "__main__":
-    out = notif_alert()
+#if _name_ == "_main_":
+#    out = notif_alert()
