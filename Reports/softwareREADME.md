@@ -3,7 +3,7 @@
 ## Machine Learning Components
 
 
-## OpenALPR
+### OpenALPR
 
 OpenALPR is an open-source Automated License Plate Recognition library that we use to detect and read license plates from erratic driver images. In order to set up this tool, we had to install a lot of dependencies and test that they compiled properly. 
 Using a linux OS, we had to install tesseract (for translating to text) and OpenCV. After setting the build directory, we set up the compile library and call make to test it. If it is in working order, you can test it on an image by calling alpr "image-name". 
@@ -21,3 +21,18 @@ sudo make install
 alpr car1.jpg
 
 This would return a list of estimated license plates with confidence values, but we only wanted the highest confidence value estimate, so we parsed the output to return the first license plate.
+
+## Head Unit
+
+### QtPy5
+The LCD UI was done using QtPy5. This was an intuitive basic frontend tool that allowed us to easily implement our vision for the UI. The UI is broken down into buttons and images. When the ALPR button is clicked, it will run alpr which is defined as a function in the code. Likewise, the other button functionalities are for generating notifications and playing other audio clips. 
+
+To set up QtPy5, simply run pip install PyQt5. With this, the UI designed will be run properly. 
+
+### Notifications
+To generate notifications, we are using IBM Watson TTS to translate a text message into audio. This will be done via an API call to get the proper voice. This audio message will be saved as an mp3 file that will then be modified with proper license plates, and this mp3 will be played locally on the jetson speaker to alert the driver. 
+
+## Backend 
+
+## BCF
+
