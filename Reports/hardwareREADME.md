@@ -25,4 +25,4 @@ This was also connected to our Jetson Nano, and this is another key piece of har
 Essentially, all the USB slots on the Jetson Nano are maxed out, and the CPU usage is also high, so our product requires a lot of power to even turn on. Initially, we tried using a powerbank, but it was not nearly enough voltage or current to power our device. As a fix, we hardwired the dashcam in our car, so it feeds the appropriate amount of power to the device.
 
 ### GT-v7 GPS Module
-
+This requires us to be outdoors to function properly, but this will also gather accurate location data which is useful for generating incident reports.
