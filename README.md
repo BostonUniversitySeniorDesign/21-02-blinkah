@@ -27,7 +27,7 @@ What is “BLINKAH?” BLINKAH is a behavior-based insurance system that uses Co
 • Firebase
 • 2GB Shared Intel SSD Digital Ocean Droplet
 4. Other 
-• Car: 1998 Volvo V70 Cross-Country Station-wagon (AKA BLINKAH Mo- bile Transporter)
+• Car: 1998 Volvo V70 Cross-Country Station-wagon (AKA BLINKAH Mobile Transporter)
 
 
 ## Head Unit Setup Instruction
